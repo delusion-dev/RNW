@@ -10,7 +10,7 @@
     "e2e": "jest --config jest.config.e2e.js",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "build": "INLINE_RUNTIME_CHUNK=false rm -rf dist/ && webpack --mode=production --config webpack.config.js",
-    "web": "INLINE_RUNTIME_CHUNK=false webpack serve --mode=development --config webpack.config.js"
+    "web": "INLINE_RUNTIME_CHUNK=false webpack-dev-server --mode=development --config webpack.config.js"
   },
   "dependencies": {
     "react": "18.1.0",
