@@ -7,6 +7,7 @@
     "ios": "react-native run-ios",
     "start": "react-native start",
     "test": "jest",
+    "e2e": "jest --config jest.config.e2e.js",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "build": "INLINE_RUNTIME_CHUNK=false rm -rf dist/ && webpack --mode=production --config webpack.config.js",
     "web": "INLINE_RUNTIME_CHUNK=false webpack-dev-server --mode=development --config webpack.config.js"
@@ -35,7 +36,9 @@
     "eslint": "^7.32.0",
     "html-webpack-plugin": "^5.5.0",
     "jest": "^26.6.3",
+    "jest-puppeteer": "^6.1.1",
     "metro-react-native-babel-preset": "^0.72.1",
+    "puppeteer": "^18.0.5",
     "react-dom": "^18.2.0",
     "react-test-renderer": "18.1.0",
     "typescript": "^4.8.3",
@@ -43,16 +46,5 @@
     "webpack": "^5.74.0",
     "webpack-cli": "^4.10.0",
     "webpack-dev-server": "^4.11.1"
-  },
-  "jest": {
-    "preset": "react-native",
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js",
-      "jsx",
-      "json",
-      "node"
-    ]
   }
 }
