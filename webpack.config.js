@@ -65,6 +65,11 @@ module.exports = {
       'react-native$': 'react-native-web',
     },
   },
+  devServer: {
+    compress: true,
+    open: true,
+    port: 3000
+  },
   module: {
     rules: [
       babelLoaderConfiguration,
