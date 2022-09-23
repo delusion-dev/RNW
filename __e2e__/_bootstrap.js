@@ -1,4 +1,7 @@
 const puppeteer = require('puppeteer');
+const path = require('path');
+
+const extPath = path.resolve(__dirname, '../dist');
 
 async function bootstrap(options = {}) {
   const { devtools = false, slowMo = false, appUrl } = options;
@@ -6,8 +9,8 @@ async function bootstrap(options = {}) {
     headless: false,
     devtools,
     args: [
-      '--disable-extensions-except=./dist',
-      '--load-extension=./dist',
+      `--disable-extensions-except=${extPath}`,
+      `--load-extension=${extPath}`,
     ],
     ...(slowMo && { slowMo }),
   });
