@@ -1,8 +1,8 @@
 const config = {
     preset: "jest-puppeteer",
-    globals: { URL: "<http://localhost:8080>" },
     verbose: true,
-    testMatch: [ "**/__e2e__/**/*.tsx" ]
+    testMatch: [ "**/__e2e__/**/*.tsx" ],
+    setupFilesAfterEnv: ["expect-puppeteer"]
 };
 
 module.exports = config;

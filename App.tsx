@@ -11,26 +11,29 @@ import { NativeRouter, Route, Link, Routes } from "react-router-native";
 
 const Home = () => <Text style={styles.header}>Home Page</Text>;
 
-const About = () => <Text style={styles.header}>Hello World Page</Text>;
+const HelloWorld = () => <Text style={styles.header}>Hello World Page</Text>;
 
 export function App() {
   return (
     <NativeRouter>
       <View style={styles.container}>
         <View style={styles.nav}>
-          <Link to="/" style={styles.navItem}>
-            <Text style={styles.navItemText}>Home</Text>
-          </Link>
-          <Link
-            to="/about" style={styles.navItem}
-          >
-            <Text style={styles.navItemText}>Hello World</Text>
-          </Link>
+      
+            <Link to="/" style={styles.navItem} testID="HOME"> 
+                <Text style={styles.navItemText}>Home</Text>
+            </Link>
+          
+            <Link to="/hello-world" style={styles.navItem} testID="HELLO-WORLD"> 
+                <Text style={styles.navItemText}>Hello World</Text>
+            </Link>
+          
         </View>
+
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
+          <Route path="/hello-world" element={<HelloWorld />} />
         </Routes>
+
       </View>
     </NativeRouter>
   )
