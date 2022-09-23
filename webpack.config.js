@@ -90,6 +90,7 @@ module.exports = {
         patterns: [
           { from: "./manifest.json", to: "." },
           { from: "./logo.png", to: "." },
+          { from: "./ext_sw.js", to: "." },
         ],
       }),
   ],
