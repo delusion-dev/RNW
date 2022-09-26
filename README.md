@@ -26,7 +26,7 @@
 #### Local 
 
 - Install [Act](https://github.com/nektos/act)
-- Run `act` command from project root 
+- Run `yarn act` command from project root 
 
 
 
