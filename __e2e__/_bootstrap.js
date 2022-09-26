@@ -13,6 +13,7 @@ async function bootstrap(options = {}) {
       `--disable-extensions-except=${extPath}`,
       `--load-extension=${extPath}`,
     ],
+    executablePath: "chrome.exe",
     ...(slowMo && { slowMo }),
   });
 
