@@ -1,12 +1,9 @@
 name: GitHub Actions Demo
 on:
   pull_request:
-    branches: 
-      - github-actions
-    types: [closed]
+    types: [opened]
 jobs:
   GitHub-Actions-Merge-Master:
-    if: ${{ !!env.LOCAL_ACT || github.event.pull_request.merged }}
     runs-on: ubuntu-latest
     steps:
       - run: echo "The job was automatically triggered by a ${{ github.event_name }} event."
