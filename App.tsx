@@ -9,7 +9,7 @@ import {
 } from 'react-native'
 import { NativeRouter, Route, Link, Routes } from "react-router-native";
 
-const Home = () => <Text style={styles.header}>Home DGKSDNF</Text>;
+const Home = () => <Text style={styles.header}>Home Page</Text>;
 
 const HelloWorld = () => <Text style={styles.header}>Hello World Page</Text>;
 
