@@ -6,7 +6,7 @@ const extPath = path.resolve(__dirname, '../dist');
 async function bootstrap(options = {}) {
   const { devtools = false, slowMo = false, appUrl } = options;
   const browser = await puppeteer.launch({
-    headless: false,
+    headless: true,
     devtools,
     args: [
       '--no-sandbox',
