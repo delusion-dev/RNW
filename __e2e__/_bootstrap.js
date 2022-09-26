@@ -13,7 +13,7 @@ async function bootstrap(options = {}) {
       `--disable-extensions-except=${extPath}`,
       `--load-extension=${extPath}`,
     ],
-    executablePath: "chrome.exe",
+    executablePath: path.resolve(__dirname, "../node_modules/puppeteer/.local-chromium/linux-1002410/chrome-linux/chrome"),
     ...(slowMo && { slowMo }),
   });
 
