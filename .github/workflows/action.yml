@@ -1,12 +1,9 @@
 name: GitHub Actions Demo
 on:
   pull_request:
-    branches: 
-      - github-actions
-    types: [closed]
+    types: [opened]
 jobs:
-  GitHub-Actions-Merge-Master:
-    if: ${{ !!env.LOCAL_ACT || github.event.pull_request.merged }}
+  main-job:
     runs-on: ubuntu-latest
     steps:
       - run: echo "The job was automatically triggered by a ${{ github.event_name }} event."
@@ -16,12 +13,6 @@ jobs:
       - name: List files in the repository
         run: |
           ls ${{ github.workspace }}
-      - name: Install Dependencies
-        uses: actions/setup-node@v2
-        env:
-          PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: 'true'
-        with:
-          node-version: '16.x'
       - name: Prepare environment
         run: npm i -g yarn && yarn install --frozen-lockfile
       - name: Build Extension application

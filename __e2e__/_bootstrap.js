@@ -13,7 +13,7 @@ async function bootstrap(options = {}) {
       `--disable-extensions-except=${extPath}`,
       `--load-extension=${extPath}`,
     ],
-    executablePath: process.env.CI ? process.env.PUPPETEER_EXEC_PATH : undefined,
+    executablePath: process.env.PUPPETEER_EXEC_PATH,
     ...(slowMo && { slowMo }),
   });
 

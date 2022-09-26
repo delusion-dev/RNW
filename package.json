@@ -11,7 +11,7 @@
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "build": "INLINE_RUNTIME_CHUNK=false rm -rf dist/ && webpack --mode=production --config webpack.config.js",
     "web": "INLINE_RUNTIME_CHUNK=false webpack-dev-server --mode=development --config webpack.config.js",
-    "act": "act -j GitHub-Actions-Merge-Master --env LOCAL_ACT=true"
+    "act": "act -j main-job"
   },
   "dependencies": {
     "react": "18.1.0",
