@@ -13,17 +13,30 @@ jobs:
       - run: echo "🖥️ The workflow is now ready to test your code on the runner."
       - name: Check out repository code
         uses: actions/checkout@v3
-      - uses: actions/setup-node@v1
-        name: 'Setup node'
-        with:
-          node-version: '16.x'
+      # - uses: actions/setup-node@v1
+      #   name: 'Setup node'
+      #   with:
+      #     node-version: '16.x'
       - name: List files in the repository
         run: |
           ls ${{ github.workspace }}
+
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        uses: ianwalter/puppeteer-container@acc52cd2334ad9eaf6e1974562d263e0a711b7e8
+        with:
+          args: yarn install --frozen-lockfile
       - name: Build Extension app
-        run: yarn build
+        uses: ianwalter/puppeteer-container@acc52cd2334ad9eaf6e1974562d263e0a711b7e8
+        with: 
+          args: yarn build
       - name: Run e2e tests
-        run: yarn e2e
-      - run: echo "This job's status is ${{ job.status }}."
+        uses: ianwalter/puppeteer-container@acc52cd2334ad9eaf6e1974562d263e0a711b7e8
+        with: 
+          args: yarn e2e
+      # - name: Install dependencies
+      #   run: yarn install --frozen-lockfile
+      # - name: Build Extension app
+      #   run: yarn build
+      # - name: Run e2e tests
+      #   run: yarn e2e
+      - run: echo "🍏 This job's status is ${{ job.status }}."
