@@ -16,6 +16,6 @@ jobs:
           ls ${{ github.workspace }}
       - run: echo "🍏 This job's status is ${{ job.status }}."
       - run: |
-          npm ci
-          npm run build
-          npm run e2e
+          yarn install --frozen-lockfile
+          yarn build
+          yarn e2e
