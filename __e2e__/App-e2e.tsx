@@ -11,7 +11,6 @@ describe('extension tests', () => {
     appPage = context.appPage;
     browser = context.browser;
     
-    appPage.bringToFront();
     await extPage.bringToFront();
   });
 
