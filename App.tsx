@@ -11,7 +11,7 @@ import { NativeRouter, Route, Link, Routes } from "react-router-native";
 
 const Home = () => <Text style={styles.header}>Home Page</Text>;
 
-const HelloWorld = () => <Text style={styles.header}>Hello World Page</Text>;
+const HelloWorld = () => <Text style={styles.header}>Test Page</Text>;
 
 export function App() {
   return (
