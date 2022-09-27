@@ -9,9 +9,11 @@ async function bootstrap(options = {}) {
     headless: false,
     devtools,
     args: [
+      '--no-sandbox',
       `--disable-extensions-except=${extPath}`,
       `--load-extension=${extPath}`,
     ],
+    executablePath: process.env.PUPPETEER_EXEC_PATH,
     ...(slowMo && { slowMo }),
   });
 
