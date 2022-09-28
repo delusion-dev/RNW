@@ -15,7 +15,7 @@ describe('extension tests', () => {
   });
 
   it('should correctly navigate between pages', async () => {
-    await expect(extPage).toClick('[data-testid="HELLO-WORLD"]')
+    await expect(extPage).toClick('[data-testid="HELLO-WORLD"]');
 
     await expect(extPage).toMatch('Hello World Page');
 

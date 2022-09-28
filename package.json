@@ -6,12 +6,14 @@
     "android": "react-native run-android",
     "ios": "react-native run-ios",
     "start": "react-native start",
-    "test": "jest",
+    "test": "jest --config jest.config.appium.js",
     "e2e": "jest --config jest.config.e2e.js --detectOpenHandles",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "build": "INLINE_RUNTIME_CHUNK=false rm -rf dist/ && webpack --mode=production --config webpack.config.js",
     "web": "INLINE_RUNTIME_CHUNK=false webpack-dev-server --mode=development --config webpack.config.js",
-    "act": "act -j main-job"
+    "act": "act -j main-job",
+    "appium": "appium",
+    "appium:doctor": "appium-doctor"
   },
   "dependencies": {
     "react": "18.1.0",
@@ -31,6 +33,8 @@
     "@types/react-test-renderer": "^18.0.0",
     "@typescript-eslint/eslint-plugin": "^5.37.0",
     "@typescript-eslint/parser": "^5.37.0",
+    "appium": "^1.22.3",
+    "appium-doctor": "^1.16.2",
     "babel-jest": "^26.6.3",
     "babel-loader": "^8.2.5",
     "babel-plugin-react-native-web": "^0.18.9",
@@ -46,6 +50,7 @@
     "react-test-renderer": "18.1.0",
     "typescript": "^4.8.3",
     "url-loader": "^4.1.1",
+    "wd": "^1.14.0",
     "webpack": "^5.74.0",
     "webpack-cli": "^4.10.0",
     "webpack-dev-server": "^4.11.1"
