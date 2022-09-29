@@ -14,7 +14,6 @@ const iosConfig = {
 };
 
 const PORT = 4723;
-jest.setTimeout(60000);
 const driver = wd.promiseChainRemote('localhost', PORT);
 
 beforeAll(async () => {
