@@ -15,11 +15,11 @@ describe('extension tests', () => {
   });
 
   it('should correctly navigate between pages', async () => {
-    await expect(extPage).toClick('[data-testid="HELLO-WORLD"]');
+    await expect(extPage).toClick('[aria-label="HELLO-WORLD"]');
 
     await expect(extPage).toMatch('Hello World Page');
 
-    await expect(extPage).toClick('[data-testid="HOME"]')
+    await expect(extPage).toClick('[aria-label="HOME"]')
 
     await expect(extPage).toMatch('Home Page');
   });

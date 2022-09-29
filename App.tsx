@@ -15,11 +15,11 @@ export function App() {
     <NativeRouter>
       <View style={styles.container}>
         <View style={styles.nav}>
-            <Link to="/" style={styles.navItem} testID="HOME" accessibilityLabel="HOME"> 
+            <Link to="/" style={styles.navItem} accessibilityLabel="HOME"> 
                 <Text style={styles.navItemText}>Home</Text>
             </Link>
           
-            <Link to="/hello-world" style={styles.navItem} testID="HELLO-WORLD" accessibilityLabel="HELLO-WORLD"> 
+            <Link to="/hello-world" style={styles.navItem} accessibilityLabel="HELLO-WORLD"> 
                 <Text style={styles.navItemText}>Hello World</Text>
             </Link>
           
