@@ -1,19 +1,25 @@
-
 import wd from 'wd';
 
-const PORT = 4723;
-const config = {
+const androidConfig = {
   platformName: 'Android',
   deviceName: 'Android Emulator',
-  app: './android/app/debug/app-debug.apk'
+  app: './android/app/build/outputs/apk/debug/app-debug.apk'
 };
 
+const iosConfig = {
+  platformName: 'iOS',
+  deviceName: 'iPhone Simulator',
+  platformVersion: "15.2",
+  app: '/Users/dev/Library/Developer/Xcode/DerivedData/RNW-eihcsrwsdflkbacrceshsyktpigr/Build/Products/Debug-iphonesimulator/RNW.app'
+};
+
+const PORT = 4723;
 jest.setTimeout(60000);
 const driver = wd.promiseChainRemote('localhost', PORT);
 
 beforeAll(async () => {
-  await driver.init(config);
-  await driver.sleep(10000); // wait for app to load
+  await driver.init(process.env.PLATFORM === 'android' ? androidConfig: iosConfig);
+  await driver.sleep(3000); // wait for app to load
 })
 
 it('should has navigation links', async () => {
@@ -23,11 +29,11 @@ it('should has navigation links', async () => {
 
 it('should correctly navigate between pages', async () => {
   await driver.elementByAccessibilityId('HELLO-WORLD').click();
-  await driver.sleep(2000);
+  await driver.sleep(100);
   expect(await driver.hasElementByAccessibilityId('HELLO-WORLD-PAGE')).toBe(true);
 
   await driver.elementByAccessibilityId('HOME').click();
-  await driver.sleep(2000);
+  await driver.sleep(100);
   expect(await driver.hasElementByAccessibilityId('HOME-PAGE')).toBe(true);
 });
 

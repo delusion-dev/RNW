@@ -3,8 +3,8 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "android": "react-native run-android",
-    "ios": "react-native run-ios",
+    "android": "concurrently \"react-native run-android\" \"react-native start\"",
+    "ios": "concurrently \"react-native run-ios\" \"react-native start\"",
     "start": "react-native start",
     "test": "jest --config jest.config.appium.js",
     "e2e": "jest --config jest.config.e2e.js --detectOpenHandles",
@@ -12,7 +12,10 @@
     "build": "INLINE_RUNTIME_CHUNK=false rm -rf dist/ && webpack --mode=production --config webpack.config.js",
     "web": "INLINE_RUNTIME_CHUNK=false webpack-dev-server --mode=development --config webpack.config.js",
     "act": "act -j main-job",
-    "appium": "appium",
+    "appium:android:start": "concurrently \"react-native run-android\" \"react-native start\" \"appium\"",
+    "appium:android:test": "jest --config jest.config.android.js",
+    "appium:ios:start": "concurrently \"react-native run-ios\" \"react-native start\" \"appium\"",
+    "appium:ios:test": "jest --config jest.config.ios.js",
     "appium:doctor": "appium-doctor"
   },
   "dependencies": {
@@ -38,6 +41,7 @@
     "babel-jest": "^26.6.3",
     "babel-loader": "^8.2.5",
     "babel-plugin-react-native-web": "^0.18.9",
+    "concurrently": "^7.4.0",
     "copy-webpack-plugin": "^11.0.0",
     "eslint": "^7.32.0",
     "expect-puppeteer": "^6.1.1",
