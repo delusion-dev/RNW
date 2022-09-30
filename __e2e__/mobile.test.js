@@ -1,5 +1,11 @@
 import wd from 'wd';
 
+const timeout = 10000;
+
+const {
+  isDisplayed,
+} = wd.asserters;
+
 const androidConfig = {
   platformName: 'Android',
   deviceName: 'Android Emulator',
@@ -28,12 +34,10 @@ it('should has navigation links', async () => {
 
 it('should correctly navigate between pages', async () => {
   await driver.elementByAccessibilityId('HELLO-WORLD').click();
-  await driver.sleep(100);
-  expect(await driver.hasElementByAccessibilityId('HELLO-WORLD-PAGE')).toBe(true);
+  await driver.waitForElementByAccessibilityId('HELLO-WORLD-PAGE', isDisplayed, timeout);
 
   await driver.elementByAccessibilityId('HOME').click();
-  await driver.sleep(100);
-  expect(await driver.hasElementByAccessibilityId('HOME-PAGE')).toBe(true);
+  await driver.waitForElementByAccessibilityId('HOME-PAGE', isDisplayed, timeout);
 });
 
 afterAll(async () => {
