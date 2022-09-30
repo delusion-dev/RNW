@@ -25,11 +25,31 @@ const options =  {
   logLevel: 'error'
 };
 
+let SAUCE_USERNAME = 'oauth-developer1.apriorit-794aa';
+let SAUCE_ACCESS_KEY = '37263e42-8411-470d-ac0f-484884224c39';
+
+const sauceOptions =  {
+  capabilities: {
+    platformName: 'Android',
+    deviceName: 'Android GoogleAPI Emulator',
+    platformVersion: '12.0',
+    automationName: 'UiAutomator2',
+    app: 'storage:filename=app-release.apk',
+    build: "build1",
+    name: "test1"
+  },
+  protocol: "https",
+  path: '/wd/hub',
+  hostname: `${SAUCE_USERNAME}:${SAUCE_ACCESS_KEY}@ondemand.eu-central-1.saucelabs.com`,
+  port: 443,
+  region: 'eu',
+};
+
 describe('Create Android session', function () {
   let client;
 
   beforeAll(async function () { 
-    client = await webdriverio.remote(options);
+    client = await webdriverio.remote(process.env.SAUCE === 'true' ? sauceOptions : options);
   });
 
   it('should correctly navigate between pages', async () => {
@@ -50,6 +70,7 @@ describe('Create Android session', function () {
   });
 
   afterAll(async () => {
+    await client.execute('sauce:job-result=passed')
     await client.deleteSession();
   });
 });
