@@ -1,5 +1,11 @@
 import wd from 'wd';
 
+const timeout = 10000;
+
+const {
+  isDisplayed,
+} = wd.asserters;
+
 let SAUCE_USERNAME = 'oauth-developer1.apriorit-794aa';
 let SAUCE_ACCESS_KEY = '37263e42-8411-470d-ac0f-484884224c39';
 
@@ -47,7 +53,7 @@ let driver
 beforeAll(async () => {
     driver = await wd.promiseChainRemote(process.env.SAUCE === 'true' ? serverConfig : 'localhost', PORT);
     await driver.init(capabilities);
-    await driver.sleep(3000); // wait for app to load
+    await driver.sleep(3000); // wait for app to load (local test fails without it)
 })
 
 it('should has navigation links', async () => {
@@ -57,12 +63,10 @@ it('should has navigation links', async () => {
 
 it('should correctly navigate between pages', async () => {
   await driver.elementByAccessibilityId('HELLO-WORLD').click();
-  await driver.sleep(100);
-  expect(await driver.hasElementByAccessibilityId('HELLO-WORLD-PAGE')).toBe(true);
+  expect(await driver.waitForElementByAccessibilityId('HELLO-WORLD-PAGE', isDisplayed, timeout)).toBeTruthy();
 
   await driver.elementByAccessibilityId('HOME').click();
-  await driver.sleep(100);
-  expect(await driver.hasElementByAccessibilityId('HOME-PAGE')).toBe(true);
+  expect(await driver.waitForElementByAccessibilityId('HOME-PAGE', isDisplayed, timeout)).toBeTruthy();
 });
 
 afterAll(async () => {

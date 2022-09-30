@@ -1,5 +1,5 @@
 process.env.PLATFORM = 'android';
-process.env.SAUCE = 'true';
+//process.env.SAUCE = 'true';
 
 const config = {
     testMatch: [ "**/__e2e__/wd.test.js" ],
