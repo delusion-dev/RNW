@@ -1,29 +1,25 @@
 import React from 'react'
 import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
   StyleSheet,
   Text,
   View,
 } from 'react-native'
 import { NativeRouter, Route, Link, Routes } from "react-router-native";
 
-const Home = () => <Text style={styles.header}>Home Page</Text>;
+const Home = () => <Text style={styles.header} accessibilityLabel="HOME-PAGE">Home Page</Text>;
 
-const HelloWorld = () => <Text style={styles.header}>Hello World Page</Text>;
+const HelloWorld = () => <Text style={styles.header} accessibilityLabel="HELLO-WORLD-PAGE">Hello World Page</Text>;
 
 export function App() {
   return (
     <NativeRouter>
       <View style={styles.container}>
         <View style={styles.nav}>
-      
-            <Link to="/" style={styles.navItem} testID="HOME"> 
+            <Link to="/" style={styles.navItem} accessibilityLabel="HOME"> 
                 <Text style={styles.navItemText}>Home</Text>
             </Link>
           
-            <Link to="/hello-world" style={styles.navItem} testID="HELLO-WORLD"> 
+            <Link to="/hello-world" style={styles.navItem} accessibilityLabel="HELLO-WORLD"> 
                 <Text style={styles.navItemText}>Hello World</Text>
             </Link>
           
