@@ -13,10 +13,14 @@
     "web": "INLINE_RUNTIME_CHUNK=false webpack-dev-server --mode=development --config webpack.config.js",
     "act": "act -j main-job",
     "appium:android:start": "concurrently \"react-native run-android\" \"react-native start\" \"appium\"",
-    "appium:android:test": "jest --config jest.config.android.js --detectOpenHandles",
     "appium:ios:start": "concurrently \"react-native run-ios\" \"react-native start\" \"appium\"",
-    "appium:ios:test": "jest --config jest.config.ios.js --detectOpenHandles",
-    "appium:doctor": "appium-doctor"
+    "appium:doctor": "appium-doctor",
+    "android:local": "PLATFORM=android jest --config jest.config.mobile.js",
+    "android:sauce:emulator": "PLATFORM=android SAUCE=true jest --config jest.config.mobile.js",
+    "android:sauce:real": "PLATFORM=android SAUCE=true REAL=true jest --config jest.config.mobile.js",
+    "ios:local": "PLATFORM=ios jest --config jest.config.mobile.js",
+    "ios:sauce:emulator": "PLATFORM=ios SAUCE=true jest --config jest.config.mobile.js",
+    "ios:sauce:real": "PLATFORM=ios SAUCE=true REAL=true jest --config jest.config.mobile.js"
   },
   "dependencies": {
     "react": "18.1.0",
