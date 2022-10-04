@@ -1,17 +1,6 @@
-const webdriverio = require('webdriverio');
-
-const driverConfig = require('./config');
-
 const timeout = 10000;
 
-
 describe('Create session', function () {
-  let client;
-
-  beforeAll(async function () { 
-    client = await webdriverio.remote(driverConfig);
-  });
-
   it('should correctly navigate between pages', async () => {
 
     const link1 = await client.$('~HELLO-WORLD');
@@ -27,10 +16,5 @@ describe('Create session', function () {
 
     const page2 = await client.$('~HOME-PAGE');
     expect(await page2.waitForExist({ timeout })).toBe(true);
-  });
-
-  afterAll(async () => {
-    // await client.execute('sauce:job-result=passed')
-    await client.deleteSession();
   });
 });
