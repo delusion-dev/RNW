@@ -47,4 +47,6 @@ if (process.env.PLATFORM === 'chrome') {
   config = chromeOptions
 }
 
+console.log('test');
+
 module.exports = config;
