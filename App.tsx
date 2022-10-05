@@ -4,7 +4,6 @@ import {NativeRouter, Route, Link, Routes} from 'react-router-native';
 
 const Home = () => {
   const [text, onChangeText] = React.useState('');
-
   return (
     <View>
       <Text style={styles.header} accessibilityLabel="HOME-PAGE">
