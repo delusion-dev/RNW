@@ -47,4 +47,6 @@ if (process.env.PLATFORM === 'chrome') {
   config = chromeOptions
 }
 
+console.log('tses')
+
 module.exports = config;
