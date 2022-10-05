@@ -1,4 +1,4 @@
-name: GitHub Actions Demo
+name: Extension e2e tests
 on:
   pull_request_target:
 jobs:
@@ -15,10 +15,10 @@ jobs:
       - name: Prepare environment
         run: npm i -g yarn && yarn install --frozen-lockfile
       - name: Build Extension application
-        run: yarn build
+        run: yarn web:build
       - name: Test Extension
         uses: mujo-code/puppeteer-headful@v2
         env:
           CI: 'true'
         with:
-          args: yarn e2e
+          args: yarn web:test

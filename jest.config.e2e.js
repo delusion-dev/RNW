@@ -1,8 +1,7 @@
 const config = {
-    preset: "jest-puppeteer",
-    verbose: true,
+    testEnvironment: './jest.environment.e2e.js',
     testMatch: [ "**/__e2e__/e2e.test.js" ],
-    setupFilesAfterEnv: ["expect-puppeteer"]
+    testTimeout: 3*60*1000,
 };
 
 module.exports = config;
