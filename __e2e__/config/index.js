@@ -29,7 +29,10 @@ const chromeOptions = {
   capabilities: {
       browserName: 'chrome',
       'goog:chromeOptions': {
+        executablePath: process.env.PUPPETEER_EXEC_PATH, // set by docker container
+        headless: false,
         args: [
+          '--no-sandbox',
           `--disable-extensions-except=${extensionPath}`,
           `--load-extension=${extensionPath}`,
         ],
