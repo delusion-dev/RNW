@@ -11,7 +11,7 @@ const sauceCaps = {
   deviceName: 'iPhone Simulator',
   platformVersion: '15',
   automationName: 'XCUITest',
-  app: 'storage:filename=RNW.ipa',
+  app: 'storage:filename=Payload.ipa',
   build: "build2",
   name: "test2"
 }

@@ -1,5 +1,5 @@
 const webdriverio = require('webdriverio');
-const NodeEnvironment = require('jest-environment-node').TestEnvironment;
+const NodeEnvironment = require('jest-environment-node');
 
 const driverConfig = require('./__e2e__/config');
 
