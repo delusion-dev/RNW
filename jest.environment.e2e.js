@@ -21,8 +21,16 @@ class CustomEnvironment extends NodeEnvironment {
       await this.openExtensionPage();
     }
 
-    this.client.$$$ = (ariaLabel) => {
-      return process.env.PLATFORM === 'chrome' ? this.client.$(`aria/${ariaLabel}`) : this.client.$(`~${ariaLabel}`)
+    this.client.$$$ = (testId) => {
+      if (process.env.PLATFORM === 'chrome') {
+        return this.client.$(`[data-testid='${testId}']`)
+      }
+      if (process.env.PLATFORM === 'android') {
+        return this.client.$(`android=new UiSelector().resourceId("${testId}")`)
+      }
+      if (process.env.PLATFORM === 'ios') {
+        return this.client.$(`~${testId}`)
+      }
     }
   }
 

@@ -20,4 +20,18 @@ describe('Create session', function () {
     it('should run mobile specific test', async () => {
     });
   }
+
+  it('should show result message', async () => {
+    const input = await client.$$$('TEXT-INPUT');
+    expect(await input.waitForExist({ timeout })).toBe(true);
+    await input.setValue("Typing in the input");
+    
+    const button = await client.$$$('SUBMIT-BUTTON');
+    expect(await button.waitForExist({ timeout })).toBe(true);
+    await button.click();
+
+    const result = await client.$$$('RESULT-TEXT');
+    expect(await result.waitForExist({ timeout })).toBe(true); 
+    expect(await result.getText()).toBe("You have typed: Typing in the input!");
+  });
 });
