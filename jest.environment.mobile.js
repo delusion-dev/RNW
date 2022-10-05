@@ -14,15 +14,12 @@ class CustomEnvironment extends NodeEnvironment {
     await super.setup();
     this.client = await webdriverio.remote(driverConfig);
     this.global.client = this.client;
+    this.global.timeout = 10000;
   }
 
   async markSauceTask() {
-    let res = 'passed'
-    if (this.failedTestsCount > 0) {
-      res = 'failed'
-    }
-
-    await this.client.execute(`sauce:job-result=${res}`)
+    const result = this.failedTestsCount > 0 ? 'failed' : 'passed';
+    await this.client.execute(`sauce:job-result=${result}`)
   }
 
   async teardown() {
@@ -32,10 +29,6 @@ class CustomEnvironment extends NodeEnvironment {
 
     await this.client.deleteSession();
     await super.teardown();
-  }
-
-  getVmContext() {
-    return super.getVmContext();
   }
 
   async handleTestEvent(event, state) {

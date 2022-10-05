@@ -1,5 +1,3 @@
-const timeout = 10000;
-
 describe('Create session', function () {
   it('should correctly navigate between pages', async () => {
 
