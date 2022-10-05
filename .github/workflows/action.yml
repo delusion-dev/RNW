@@ -21,4 +21,4 @@ jobs:
         env:
           CI: 'true'
         with:
-          args: yarn e2e
+          args: yarn web:test

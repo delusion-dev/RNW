@@ -15,6 +15,15 @@ class CustomEnvironment extends NodeEnvironment {
     this.client = await webdriverio.remote(driverConfig);
     this.global.client = this.client;
     this.global.timeout = 10000;
+
+
+    if (process.env.PLATFORM === 'chrome') {
+      await this.openExtensionPage();
+    }
+
+    this.client.$$$ = (ariaLabel) => {
+      return process.env.PLATFORM === 'chrome' ? this.client.$(`aria/${ariaLabel}`) : this.client.$(`~${ariaLabel}`)
+    }
   }
 
   async markSauceTask() {
@@ -35,6 +44,20 @@ class CustomEnvironment extends NodeEnvironment {
     if (event.name === 'test_fn_failure') {
       this.failedTestsCount++;
     }
+  }
+
+  async openExtensionPage() {
+    await this.client.url('http://google.com')
+    const puppeteer = await this.client.getPuppeteer()
+
+    const targets = await puppeteer.targets();
+    const extensionTarget = targets.find(target => target.type() === 'service_worker');
+    const partialExtensionUrl = extensionTarget.url() || '';
+    const [, , extensionId] = partialExtensionUrl.split('/');
+
+    const extPage = await puppeteer.newPage();
+    const extensionUrl = `chrome-extension://${extensionId}/index.html`;
+    await extPage.goto(extensionUrl, { waitUntil: 'load' });
   }
 }
 

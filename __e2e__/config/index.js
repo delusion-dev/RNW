@@ -1,10 +1,12 @@
 const androidConfig = require('./android');
 const iosConfig = require('./ios');
+const path = require('path');
+const extensionPath = path.resolve(__dirname, '../../dist');
 
-let SAUCE_USERNAME = 'oauth-developer1.apriorit-794aa';
-let SAUCE_ACCESS_KEY = '37263e42-8411-470d-ac0f-484884224c39';
+const SAUCE_USERNAME = 'oauth-developer1.apriorit-794aa';
+const SAUCE_ACCESS_KEY = '37263e42-8411-470d-ac0f-484884224c39';
 
-const localOptions =  {
+const mobileLocalOptions = {
   capabilities: process.env.PLATFORM === 'android' ? androidConfig.localCaps : iosConfig.localCaps,
   path: '/wd/hub',
   host: process.env.APPIUM_HOST || 'localhost',
@@ -12,7 +14,7 @@ const localOptions =  {
   logLevel: 'error'
 };
 
-const sauceOptions =  {
+const mobileSauceOptions = {
   capabilities: process.env.PLATFORM === 'android' ? androidConfig.sauceCaps : iosConfig.sauceCaps,
   protocol: "https",
   path: '/wd/hub',
@@ -21,6 +23,25 @@ const sauceOptions =  {
   region: 'eu',
 };
 
-const config = process.env.SAUCE ? sauceOptions : localOptions;
+const chromeOptions = {
+  automationProtocol: 'devtools',
+  logLevel: 'error',
+  capabilities: {
+      browserName: 'chrome',
+      'goog:chromeOptions': {
+        args: [
+          `--disable-extensions-except=${extensionPath}`,
+          `--load-extension=${extensionPath}`,
+        ],
+        slowMo: 10, // slow down execution for debugging
+      }
+  }
+}
+
+let config = process.env.SAUCE ? mobileSauceOptions : mobileLocalOptions;
+
+if (process.env.PLATFORM === 'chrome') {
+  config = chromeOptions
+}
 
 module.exports = config;

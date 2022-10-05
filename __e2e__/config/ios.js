@@ -11,7 +11,7 @@ const sauceCaps = {
   deviceName: 'iPhone Simulator',
   platformVersion: '15',
   automationName: 'XCUITest',
-  app: 'storage:filename=Payload.ipa',
+  app: 'storage:filename=RNW.zip',
   build: "build2",
   name: "test2"
 }
@@ -20,6 +20,7 @@ const sauceCaps = {
 
 if (process.env.REAL) {
   sauceCaps.deviceName = 'iPhone.*';
+  sauceCaps.app = 'storage:filename=Payload.ipa';
   delete sauceCaps.platformVersion;
 }
 

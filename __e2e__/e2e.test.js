@@ -1,31 +1,23 @@
-import expect from 'expect-puppeteer'
-const { bootstrap } = require('./_bootstrap');
-
-describe('extension tests', () => {
-  let extPage, appPage, browser;
-
-  beforeAll(async () => {
-    const context = await bootstrap({ appUrl: 'https://google.com', slowMo: 100, devtools: true });
-
-    extPage = context.extPage;
-    appPage = context.appPage;
-    browser = context.browser;
-    
-    await extPage.bringToFront();
-  });
-
+describe('Create session', function () {
   it('should correctly navigate between pages', async () => {
-    await expect(extPage).toClick('[aria-label="HELLO-WORLD"]');
 
-    await expect(extPage).toMatch('Hello World Page');
+    const link1 = await client.$$$('HELLO-WORLD');
+    expect(await link1.waitForExist({ timeout })).toBe(true);
+    await link1.click();
 
-    await expect(extPage).toClick('[aria-label="HOME"]')
+    const page1 = await client.$$$('HELLO-WORLD-PAGE');
+    expect(await page1.waitForExist({ timeout })).toBe(true);
 
-    await expect(extPage).toMatch('Home Page');
+    const link2 = await client.$$$('HOME');
+    expect(await link2.waitForExist({ timeout })).toBe(true);
+    await link2.click();
+
+    const page2 = await client.$$$('HOME-PAGE');
+    expect(await page2.waitForExist({ timeout })).toBe(true);
   });
 
-  afterAll(async () => {
-    await browser.close();
-    return true;
-  });
+  if (client.isMobile) {  // || client.isIOS || client.isAndroid
+    it('should run mobile specific test', async () => {
+    });
+  }
 });
