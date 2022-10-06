@@ -14,14 +14,12 @@ class CustomEnvironment extends NodeEnvironment {
     await super.setup();
     this.client = await webdriverio.remote(driverConfig);
     this.global.client = this.client;
-    this.global.timeout = 10000;
-
 
     if (process.env.PLATFORM === 'chrome') {
       await this.openExtensionPage();
     }
 
-    this.client.$$$ = (testId) => {
+    this.client.getElementByTestId = (testId) => {
       if (process.env.PLATFORM === 'chrome') {
         return this.client.$(`[data-testid='${testId}']`)
       }
