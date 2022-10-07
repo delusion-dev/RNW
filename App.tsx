@@ -11,6 +11,11 @@ const Home = () => {
       <Text style={styles.header} testID="HOME-PAGE">
         Home Page
       </Text>
+
+      <Text>
+        Lorem ipsum
+      </Text>
+
       <TextInput
         testID="TEXT-INPUT"
         style={styles.input}
@@ -32,6 +37,7 @@ const Home = () => {
             <Pressable
               style={[styles.button, styles.buttonClose]}
               onPress={() => setModalVisible(!modalVisible)}
+              testID="SUBMIT-MODAL"
             >
               <Text style={styles.textStyle}>OK</Text>
             </Pressable>
