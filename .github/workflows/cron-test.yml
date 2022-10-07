@@ -11,7 +11,7 @@ jobs:
       - run: echo "The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
       - uses: actions/checkout@v3
         with:
-          ref: some-branch
+          ref: branch-for-testing-cron-gha
       - name: List files in the repository
         run: |
           ls ${{ github.workspace }}
