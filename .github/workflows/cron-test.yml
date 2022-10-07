@@ -1,7 +1,7 @@
 name: Cron Job
 on:
   schedule:
-   - cron: "*/5 * * * *"
+   - cron: "0 * * * *"
 jobs:
   cron-main-job:
     runs-on: ubuntu-latest
