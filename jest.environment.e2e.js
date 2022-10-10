@@ -4,6 +4,7 @@ const NodeEnvironment = require('jest-environment-node');
 const driverConfig = require('./__e2e__/config');
 
 class CustomEnvironment extends NodeEnvironment {
+  timeout = 10000;
   constructor(config, context) {
     super(config, context);
     this.client;
@@ -14,21 +15,58 @@ class CustomEnvironment extends NodeEnvironment {
     await super.setup();
     this.client = await webdriverio.remote(driverConfig);
     this.global.client = this.client;
+    this.global.timeout = this.timeout
 
     if (process.env.PLATFORM === 'chrome') {
       await this.openExtensionPage();
     }
 
-    this.client.getElementByTestId = (testId) => {
+    this.client.getElementByTestId = async (testId) => {
+      let selector = '';
       if (process.env.PLATFORM === 'chrome') {
-        return this.client.$(`[data-testid='${testId}']`)
+        selector = `[data-testid='${testId}']`;
       }
       if (process.env.PLATFORM === 'android') {
-        return this.client.$(`android=new UiSelector().resourceId("${testId}")`)
+        selector = `android=new UiSelector().resourceId("${testId}")`;
       }
       if (process.env.PLATFORM === 'ios') {
-        return this.client.$(`~${testId}`)
+        selector = `~${testId}`;
       }
+      const element = await this.client.$(selector);
+      await element.waitForExist({timeout: this.timeout});
+      return element;
+    }
+
+    this.client.getElementByTextContains = async (text) => {
+      let selector = '';
+      if (process.env.PLATFORM === 'chrome') {
+        selector = `//*[contains(text(),'${text}')]`; // https://www.webperformance.com/load-testing-tools/blog/articles/real-browser-manual/building-a-testcase/how-locate-element-the-page/xpath-locator-examples/
+      }
+      if (process.env.PLATFORM === 'android') {
+        selector = `android=new UiSelector().textContains("${text}")`; // https://developer.android.com/reference/androidx/test/uiautomator/UiSelector?hl=en
+      }
+      if (process.env.PLATFORM === 'ios') {
+        selector = `-ios predicate string:name CONTAINS '${text}'`; // https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/Predicates/Articles/pSyntax.html
+      }
+      const element = await this.client.$(selector);
+      await element.waitForExist({timeout: this.timeout});
+      return element;
+    }
+
+    this.client.getElementByText = async (text) => {
+      let selector = '';
+      if (process.env.PLATFORM === 'chrome') {
+        selector = `//*[text()='${text}']`;
+      }
+      if (process.env.PLATFORM === 'android') {
+        selector = `android=new UiSelector().text("${text}")`;
+      }
+      if (process.env.PLATFORM === 'ios') {
+        selector = `-ios predicate string:name == '${text}'`;
+      }
+      const element = await this.client.$(selector);
+      await element.waitForExist({timeout: this.timeout});
+      return element;
     }
   }
 

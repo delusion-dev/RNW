@@ -1,4 +1,14 @@
 describe('Create session', function () {
+  it('should search by text', async () => {
+    const text = await client.getElementByText('Lorem ipsum');
+    expect(await text.isDisplayed()).toBeTruthy();
+  });
+
+  it('should search by substring', async () => {
+    const text = await client.getElementByTextContains('Lorem i');
+    expect(await text.isDisplayed()).toBeTruthy();
+  });
+
   it('should correctly navigate between pages', async () => {
 
     const link1 = await client.getElementByTestId('HELLO-WORLD');
@@ -33,5 +43,18 @@ describe('Create session', function () {
     const result = await client.getElementByTestId('RESULT-TEXT');
     expect(await result.isDisplayed()).toBeTruthy();
     expect(await result.getText()).toBe("You have typed: Typing in the input!");
+  });
+
+  it('should close dialog', async () => {
+    const result = await client.getElementByTestId('RESULT-TEXT');
+    expect(await result.isDisplayed()).toBeTruthy();
+    expect(await result.getText()).toBe("You have typed: Typing in the input!");
+
+    const okButton = await client.getElementByTestId('SUBMIT-MODAL');
+    expect(await okButton.isDisplayed()).toBeTruthy();
+    await okButton.click();
+
+    const disappearedWithin1sec = await result.waitForExist({timeout: 1000, reverse: true})
+    expect(disappearedWithin1sec).toBeTruthy();
   });
 });
