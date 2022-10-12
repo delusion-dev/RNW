@@ -3,10 +3,8 @@ name: Application push to SauceLabs
 #   schedule:
 #    - cron: "*/5 * * * *"
 on:
-  workflow_dispatch:
-    inputs:
-      name:
-        description: 'Uploading apps to Sauce Labs'
+  push:
+    branches: [ "push-to-sauce2" ]
 jobs:
   generate-android-app-name:
     runs-on: ubuntu-latest
