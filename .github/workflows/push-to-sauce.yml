@@ -3,26 +3,24 @@ name: Application push to SauceLabs
 #   schedule:
 #    - cron: "*/5 * * * *"
 jobs:
-  get-app-version: 
+  generate-android-app-name:
     runs-on: ubuntu-latest
     outputs:
-      next_ver: ${{ steps.next_app_ver.outputs.next_ver }}
-    steps: 
-      - name: Generate next app version
-        id: next_app_ver
-        # Remade this step to generate unique version number
-        env: 
-          APP_VERSION: ${{ secrets.APP_VERSION }}
-        run: |
-          NEXT_VER=$APP_VERSION
-          if [ -z "$NEXT_VER" ]; then
-            echo "ERROR: Could not retrieve next version from semantic-version";
-            exit 2;
-          fi
-          echo "Next version: ${NEXT_VER}"
-          echo "::set-output name=next_ver::$NEXT_VER"
+      app_name: ${{ steps.gen_android_app_name.outputs.app_name }}
+    steps:
+      - name: Generate Android app name
+        id: gen_android_app_name
+        run: echo "::set-output name=app_name::$(date +%s)"
+  generate-ios-app-name:
+    runs-on: ubuntu-latest
+    outputs:
+      app_name: ${{ steps.gen_ios_app_name.outputs.app_name }}
+    steps:
+      - name: Generate iOS app name
+        id: gen_ios_app_name
+        run: echo "::set-output name=app_name::$(date +%s)"
   test-push-android:
-    needs: [get-app-version]
+    needs: [generate-android-app-name]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -30,25 +28,26 @@ jobs:
         run: cd scripts && chmod +x ./upload-android-to-sauce.sh
       - name: Upload .apk to SauceLabs
         env:
-          APP_VERSION: ${{ needs.get-app-version.outputs.next_ver }}
+          E2E_ANDROID_APP_NAME: ${{ needs.generate-android-app-name.outputs.app_name }}
           SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
           SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
-        run: ./scripts/upload-android-to-sauce.sh
-  test-push-ios:
-    needs: [get-app-version]
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v3
-    - name: Made package script executable
-      run: cd scripts && chmod +x ./compress-ios-file.sh
-    - name: Prepare zip package
-      run: ./scripts/compress-ios-file.sh
-    - name: Made upload script executable
-      run: cd scripts && chmod +x ./upload-ios-to-sauce.sh
-    - name: Upload .ipa and .zip to SauceLabs
-      env: 
-        APP_VERSION: ${{ needs.get-app-version.outputs.next_ver }}
-        SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
-        SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
-        XCODE_BUILD_FOLDER: ${{ secrets.XCODE_BUILD_FOLDER }}
-      run: ./scripts/upload-ios-to-sauce.sh
+        run: |
+          ./scripts/upload-android-to-sauce.sh
+  # test-push-ios:
+  #   needs: [get-app-version]
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #   - uses: actions/checkout@v3
+  #   - name: Made package script executable
+  #     run: cd scripts && chmod +x ./compress-ios-file.sh
+  #   - name: Prepare zip package
+  #     run: ./scripts/compress-ios-file.sh
+  #   - name: Made upload script executable
+  #     run: cd scripts && chmod +x ./upload-ios-to-sauce.sh
+  #   - name: Upload .ipa and .zip to SauceLabs
+  #     env: 
+  #       APP_VERSION: ${{ needs.get-app-version.outputs.next_ver }}
+  #       SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
+  #       SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
+  #       XCODE_BUILD_FOLDER: ${{ secrets.XCODE_BUILD_FOLDER }}
+  #     run: ./scripts/upload-ios-to-sauce.sh
