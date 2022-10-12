@@ -1,0 +1,108 @@
+# app-build
+name: Release Wallet
+on:
+  push:
+    branches:
+      - master
+    paths-ignore:
+      - braavos_contracts/**
+      - contracts/**
+      - .github/**
+jobs:
+  yarn_setup:
+    name: Cache Yarn Deps
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          # cache: 'yarn'
+      - name: Cache yarn deps
+        run: npm i -g yarn && yarn install
+  next_semver:
+    name: Get next Semantic Version
+    runs-on: ubuntu-latest
+    outputs:
+      next_semantic_ver: ${{ steps.next_semrel_ver.outputs.next_ver }}
+    steps:
+      - uses: actions/checkout@v3
+      - name: Verify git HEAD
+        run: |
+          [ "$(git rev-parse HEAD)" = "${{ github.sha }}" ]
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          # cache: 'yarn'
+      - name: Compute version with semantic-release
+        id: next_semrel_ver
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          NEXT_VER=1.1.1
+          if [ -z "$NEXT_VER" ]; then
+            echo "ERROR: Could not retrieve next version from semantic-version";
+            exit 2;
+          fi
+          echo "Next version: ${NEXT_VER}"
+          echo "::set-output name=next_ver::$NEXT_VER"
+  
+  build_android:
+    needs: [yarn_setup, next_semver]
+    name: Build Android
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Verify git HEAD
+        run: |
+          [ "$(git rev-parse HEAD)" = "${{ github.sha }}" ]
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: 'yarn'
+      - run: npm i -g yarn && yarn install
+      - name: Make Gradlew Executable
+        run: cd android && chmod +x ./gradlew
+      - name: Setup Android Keystore
+        id: decode_android_keystore
+        uses: timheuer/base64-to-file@v1.1
+        with:
+          fileDir: './_secrets'
+          fileName: 'wallet.android.keystore'
+          encodedString: ${{ secrets.ANDROID_WALLET_KEYSTORE_BASE64 }}
+      - uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: '11'
+      - name: Setup Gradle Props
+        run: |
+          echo "BRAAVOS_WALLET_UPLOAD_STORE_FILE=../../${{ steps.decode_android_keystore.outputs.filePath }}" >> android/gradle.properties
+          echo "BRAAVOS_WALLET_UPLOAD_STORE_PASSWORD=${{ secrets.ANDROID_WALLET_STORE_PASSWORD }}" >> android/gradle.properties
+          echo "BRAAVOS_WALLET_UPLOAD_KEY_ALIAS=${{ secrets.ANDROID_WALLET_KEY_ALIAS }}" >> android/gradle.properties
+          echo "BRAAVOS_WALLET_UPLOAD_KEY_PASSWORD=${{ secrets.ANDROID_WALLET_KEY_PASSWORD }}" >> android/gradle.properties
+          echo "org.gradle.daemon=false" >> android/gradle.properties
+      - name: Build Android
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRAAVOS_RELEASE: ${{ needs.next_semver.outputs.next_semantic_ver }}
+          NODE_ENV: production
+        run: yarn semrel:android
+      - uses: actions/upload-artifact@v3
+        with:
+          name: android-artifacts
+          path: |
+            android/app/build/outputs/bundle/release/app-release.aab
+            android/app/build.gradle
+            android/app/gradle.lockfile
+  
