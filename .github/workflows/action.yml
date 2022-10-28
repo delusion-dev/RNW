@@ -1,6 +1,7 @@
 name: Extension e2e tests
-on:
-  pull_request_target:
+# Uncomment commit and push to start action When PR created
+# on:
+#   pull_request_target:
 jobs:
   main-job:
     runs-on: ubuntu-latest

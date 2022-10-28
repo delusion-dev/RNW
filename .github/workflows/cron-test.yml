@@ -1,7 +1,8 @@
 name: Cron Job
 on:
-  schedule:
-   - cron: "0 * * * *"
+  # Uncomment commit and push to start cron 
+  # schedule:
+  #  - cron: "0 * * * *"
 jobs:
   cron-main-job:
     runs-on: ubuntu-latest

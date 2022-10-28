@@ -1,0 +1,47 @@
+name: Extension e2e tests
+on:
+  pull_request_target:
+jobs:
+  main-job:
+    runs-on: ubuntu-latest
+    steps:
+      # - run: echo "The job was automatically triggered by a ${{ github.event_name }} event."
+      # - run: echo "This job is now running on a ${{ runner.os }} server hosted by GitHub!"
+      # - run: echo "The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
+      - uses: actions/checkout@v3
+        ref: test-gha-docker
+      # - name: List files in the repository
+      #   run: |
+      #     ls ${{ github.workspace }}
+      # - name: Prepare environment
+      #   run: npm i -g yarn && yarn install --frozen-lockfile
+      # - name: Build Extension application
+      #   run: yarn web:build
+      - name: Determine current location
+        run: pwd
+      - name: Launch docker container 
+        run: docker run -d --restart always --name devnet_container -p 127.0.0.1:5050:5050 --mount type=bind,source=/mnt,target=/dumpdir shardlabs/starknet-devnet:latest --dump-on exit --dump-path /dumpdir/dump.pkl
+        # /mnt/c/Users/ihor.bohdanov/Projects/RNW
+        # run: docker run -d --restart always -p 127.0.0.1:5050:5050 shardlabs/starknet-devnet:latest --mount type=bind,source=./dumpdir,target=/dumpdir --dump-on exit --dump-path /dumpdir/dump.pkl --load-path /dumpdir/dump.pkl
+      - name: Sleep for 5 seconds
+        run: sleep 5s
+        shell: bash
+      - name: Make a request
+        run: node request.js
+      - name: Stop container
+        run: docker stop devnet_container
+      # - name: Delete container
+      #   run: docker rm devnet_container
+      - name: Sleep for 10 seconds
+        run: sleep 10s
+        shell: bash
+      - name: Check file exist
+        run: |
+          cd /mnt
+          ls
+      # - name: Test Extension
+      #   uses: mujo-code/puppeteer-headful@v2
+      #   env:
+      #     CI: 'true'
+      #   with:
+      #     args: yarn web:test
