@@ -21,7 +21,7 @@ jobs:
         run: echo `pwd`/dumpdir
       - name: Launch docker container 
         run: |
-          docker run \
+          docker run -d \
           -p 127.0.0.1:5050:5050 \
           --restart always \
           --name devnet_container \
