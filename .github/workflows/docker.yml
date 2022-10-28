@@ -47,6 +47,11 @@ jobs:
         run: |
           cd ${{ github.workspace }}/dumpdir
           ls
+      - name: Commit dump.pkl file
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: Commit dump.pkl file
+          file_pattern: dumpdir/dump.pkl
 
       # - name: Test Extension
       #   uses: mujo-code/puppeteer-headful@v2
