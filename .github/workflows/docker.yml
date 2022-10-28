@@ -19,7 +19,7 @@ jobs:
       - name: Determine current location
         run: pwd
       - name: Launch docker container 
-        run: docker run -d --restart always --name devnet_container -p 127.0.0.1:5050:5050 --mount type=bind,source=/mnt,target=/dumpdir shardlabs/starknet-devnet:latest --dump-on exit --dump-path /dumpdir/dump.pkl
+        run: docker run -d --restart always --name devnet_container -p 127.0.0.1:5050:5050 --mount type=bind,source=/home/runner/work/RNW/RNW,target=/dumpdir shardlabs/starknet-devnet:latest --dump-on exit --dump-path /dumpdir/dump.pkl
         # /mnt/c/Users/ihor.bohdanov/Projects/RNW
         # run: docker run -d --restart always -p 127.0.0.1:5050:5050 shardlabs/starknet-devnet:latest --mount type=bind,source=./dumpdir,target=/dumpdir --dump-on exit --dump-path /dumpdir/dump.pkl --load-path /dumpdir/dump.pkl
       - name: Sleep for 5 seconds
@@ -36,7 +36,7 @@ jobs:
         shell: bash
       - name: Check file exist
         run: |
-          cd /mnt
+          cd /home/runner/work/RNW/RNW
           ls
       # - name: Test Extension
       #   uses: mujo-code/puppeteer-headful@v2
