@@ -27,8 +27,8 @@ jobs:
           --mount type=bind,source=${{ github.workspace }}/dumpdir,target=/dumpdir \
           shardlabs/starknet-devnet:latest \
           --dump-on exit \
-          --dump-path /dumpdir/dump.pkl `` \
-      # --load-path /dumpdir
+          --dump-path /dumpdir/dump.pkl \
+          --load-path `test -f /dumpdir/dump.pkl && echo /dumpdir/dump.pkl`
       - name: Sleep for 5 seconds
         run: sleep 5s
         shell: bash
