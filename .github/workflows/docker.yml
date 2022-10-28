@@ -43,7 +43,10 @@ jobs:
         shell: bash
 
       - name: Check file exist
-        run: ls ${{ github.workspace }}
+        run: |
+          cd ${{ github.workspace }} 
+          ls
+
       # - name: Test Extension
       #   uses: mujo-code/puppeteer-headful@v2
       #   env:
