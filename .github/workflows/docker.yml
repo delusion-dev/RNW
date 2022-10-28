@@ -44,7 +44,7 @@ jobs:
 
       - name: Check file exist
         run: |
-          cd ${{ github.workspace }} 
+          cd ${{ github.workspace }}/dumpdir
           ls
 
       # - name: Test Extension
