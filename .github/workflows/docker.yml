@@ -25,29 +25,28 @@ jobs:
           -p 127.0.0.1:5050:5050 \
           --restart always \
           --name devnet_container \
-          --mount type=bind,source=${{ github.workspace }}/dumpdir,target=/dumpdir \
           shardlabs/starknet-devnet:latest \
-          --dump-on exit \
-          --dump-path /dumpdir/dump.pkl \
-          --load-path /dumpdir/dump.pkl
       - name: Sleep for 5 seconds
         run: sleep 5s
         shell: bash
       - name: Make a request from root
         run: node request.js
+      - name: Prepare environment
+        run: npm i -g yarn && yarn install --frozen-lockfile
+      - name: Build Extension application
+        run: yarn web:build
       - name: Make a request from puppeteer
         uses: mujo-code/puppeteer-headful@v2
         env:
           CI: 'true'
         with:
-          # args: yarn web:test
-          args: node request.js
+          args: yarn web:test
       - name: Sleep for 5 seconds
         run: sleep 5s
       - name: Stop container
         run: docker stop devnet_container
-      # - name: Delete container
-      #   run: docker rm devnet_container
+      - name: Delete container
+        run: docker rm devnet_container
       - name: Sleep for 10 seconds
         run: sleep 10s
         shell: bash

@@ -1,7 +1,13 @@
-import React, {useState} from 'react';
-import {StyleSheet, Text, View, TextInput, Pressable, Modal} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
+  Pressable,
+  Modal,
+} from 'react-native';
 import {NativeRouter, Route, Link, Routes} from 'react-router-native';
-
 const Home = () => {
   const [text, onChangeText] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
@@ -12,9 +18,7 @@ const Home = () => {
         Home Page
       </Text>
 
-      <Text>
-        Lorem ipsum
-      </Text>
+      <Text>Lorem ipsum</Text>
 
       <TextInput
         testID="TEXT-INPUT"
@@ -25,20 +29,22 @@ const Home = () => {
       <Pressable
         style={[styles.button, styles.buttonClose]}
         testID="SUBMIT-BUTTON"
-        onPress={() => setModalVisible(!modalVisible)}
-      ><Text style={styles.textStyle}>Submit</Text></Pressable>
+        onPress={() => setModalVisible(!modalVisible)}>
+        <Text style={styles.textStyle}>Submit</Text>
+      </Pressable>
 
-      <Modal  
-        visible={modalVisible}
-      >
+      <Modal visible={modalVisible}>
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <Text style={[styles.modalText, styles.redText]} testID="RESULT-TEXT">You have typed: {text}!</Text>
+            <Text
+              style={[styles.modalText, styles.redText]}
+              testID="RESULT-TEXT">
+              You have typed: {text}!
+            </Text>
             <Pressable
               style={[styles.button, styles.buttonClose]}
               onPress={() => setModalVisible(!modalVisible)}
-              testID="SUBMIT-MODAL"
-            >
+              testID="SUBMIT-MODAL">
               <Text style={styles.textStyle}>OK</Text>
             </Pressable>
           </View>
@@ -48,11 +54,40 @@ const Home = () => {
   );
 };
 
-const HelloWorld = () => (
-  <Text style={styles.header} testID="HELLO-WORLD-PAGE">
-    Hello World Page
-  </Text>
-);
+const HelloWorld = () => {
+  const [result, setResult] = useState('EMPTY');
+
+  useEffect(() => {
+    fetch('http://localhost:5050/is_alive')
+      .then(function (response) {
+        // The API call was successful!
+        return response.text();
+      })
+      .then(function (html) {
+        // This is the HTML from our response as a text string
+        console.log(html);
+        setResult(html);
+      })
+      .catch(function (err) {
+        // There was an error
+        setResult('ERROR');
+        console.warn('Something went wrong.', err);
+      });
+  }, []);
+
+  // useEffect(() => {
+  //   console.log(result);
+  // }, [result])
+
+  return (
+    <div>
+      <Text style={styles.header} testID="HELLO-WORLD-PAGE">
+        Hello World Page
+      </Text>
+      <Text testID="result">{result}</Text>
+    </div>
+  );
+};
 
 export function App() {
   return (
@@ -63,10 +98,7 @@ export function App() {
             <Text style={styles.navItemText}>Home</Text>
           </Link>
 
-          <Link
-            to="/hello-world"
-            style={styles.navItem}
-            testID="HELLO-WORLD">
+          <Link to="/hello-world" style={styles.navItem} testID="HELLO-WORLD">
             <Text style={styles.navItemText}>Hello World</Text>
           </Link>
         </View>
@@ -118,46 +150,46 @@ const styles = StyleSheet.create({
   },
   centeredView: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 22
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 22,
   },
   modalView: {
     margin: 20,
-    backgroundColor: "white",
+    backgroundColor: 'white',
     borderRadius: 20,
     padding: 35,
-    alignItems: "center",
-    shadowColor: "#000",
+    alignItems: 'center',
+    shadowColor: '#000',
     shadowOffset: {
       width: 0,
-      height: 2
+      height: 2,
     },
     shadowOpacity: 0.25,
     shadowRadius: 4,
-    elevation: 5
+    elevation: 5,
   },
   button: {
     borderRadius: 20,
     padding: 10,
-    elevation: 2
+    elevation: 2,
   },
   buttonOpen: {
-    backgroundColor: "#F194FF",
+    backgroundColor: '#F194FF',
   },
   buttonClose: {
-    backgroundColor: "#2196F3",
+    backgroundColor: '#2196F3',
   },
   textStyle: {
-    color: "white",
-    fontWeight: "bold",
-    textAlign: "center"
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
   },
   modalText: {
     marginBottom: 15,
-    textAlign: "center"
+    textAlign: 'center',
   },
   redText: {
-    color: "red",
-  }
+    color: 'red',
+  },
 });

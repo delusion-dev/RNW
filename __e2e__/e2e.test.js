@@ -17,6 +17,10 @@ describe('Create session', function () {
 
     const page1 = await client.getElementByTestId('HELLO-WORLD-PAGE');
     expect(await page1.isDisplayed()).toBeTruthy();
+    const res = await client.getElementByTestId('result');
+    const resText = await res.getText();
+    console.log(resText);
+    expect(resText).toBe("Alive!!!");
 
     const link2 = await client.getElementByTestId('HOME');
     expect(await link2.isDisplayed()).toBeTruthy();
