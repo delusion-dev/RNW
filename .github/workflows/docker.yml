@@ -7,8 +7,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      # - name: Create docker network
-      #   run: docker network create --driver bridge test-network 
+      - name: Create docker network
+        run: docker network create --driver bridge test-network 
       - name: Check network created
         run: docker network ls
       - name: Launch docker container 
