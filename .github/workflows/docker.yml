@@ -33,8 +33,15 @@ jobs:
       - name: Sleep for 5 seconds
         run: sleep 5s
         shell: bash
-      - name: Make a request
+      - name: Make a request from root
         run: node request.js
+      - name: Make a request from puppeteer
+        uses: mujo-code/puppeteer-headful@v2
+        env:
+          CI: 'true'
+        with:
+          # args: yarn web:test
+          args: node request.js
       - name: Stop container
         run: docker stop devnet_container
       # - name: Delete container
@@ -52,10 +59,3 @@ jobs:
         with:
           commit_message: Commit dump.pkl file
           file_pattern: dumpdir/dump.pkl
-
-      # - name: Test Extension
-      #   uses: mujo-code/puppeteer-headful@v2
-      #   env:
-      #     CI: 'true'
-      #   with:
-      #     args: yarn web:test
