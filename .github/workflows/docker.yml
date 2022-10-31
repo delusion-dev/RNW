@@ -6,57 +6,49 @@ jobs:
   main-job:
     runs-on: ubuntu-latest
     steps:
-      # - run: echo "The job was automatically triggered by a ${{ github.event_name }} event."
-      # - run: echo "This job is now running on a ${{ runner.os }} server hosted by GitHub!"
-      # - run: echo "The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
       - uses: actions/checkout@v3
-      # - name: List files in the repository
-      #   run: |
-      #     echo ${{ github.workspace }}
-      # - name: Prepare environment
-      #   run: npm i -g yarn && yarn install --frozen-lockfile
-      # - name: Build Extension application
-      #   run: yarn web:build
-      - name: Determine current location
-        run: echo `pwd`/dumpdir
+      # - name: Create docker network
+      #   run: docker network create --driver bridge test-network 
+      - name: Check network created
+        run: docker network ls
       - name: Launch docker container 
         run: |
           docker run -d \
           -p 127.0.0.1:5050:5050 \
           --restart always \
           --name devnet_container \
+          --network test-network \
           shardlabs/starknet-devnet:latest
+
       - name: Sleep for 5 seconds
         run: sleep 5s
-        shell: bash
-      - name: Make a request from root
-        run: node request.js
-      - name: Prepare environment
-        run: npm i -g yarn && yarn install --frozen-lockfile
-      - name: Build Extension application
-        run: yarn web:build
-      - name: Make a request from puppeteer
-        uses: mujo-code/puppeteer-headful@v2
-        env:
-          CI: 'true'
-        with:
-          args: yarn web:test
-      - name: Sleep for 5 seconds
-        run: sleep 5s
-      - name: Stop container
-        run: docker stop devnet_container
-      - name: Delete container
-        run: docker rm devnet_container
-      - name: Sleep for 10 seconds
-        run: sleep 10s
         shell: bash
 
-      - name: Check file exist
+      - name: Make a request from root
+        run: node request.js
+
+      # - name: Prepare environment
+      #   run: npm i -g yarn && yarn install --frozen-lockfile
+
+      # - name: Build Extension application
+      #   run: yarn web:build
+
+      # - name: Build container
+      #   run: docker build -t test-image .
+
+
+      - name: Puppeteer container
         run: |
-          cd ${{ github.workspace }}/dumpdir
-          ls
-      - name: Commit dump.pkl file
-        uses: stefanzweifel/git-auto-commit-action@v4
-        with:
-          commit_message: Commit dump.pkl file
-          file_pattern: dumpdir/dump.pkl
+          docker run -d \
+          --restart always \
+          --name puppeteer_container \
+          --mount type=bind,source=${{ github.workspace }},target=/app \
+          --network test-network \
+          ghcr.io/puppeteer/puppeteer:latest \
+          cd /app && npm i -g yarn && yarn install --frozen-lockfile && yarn web:build && yarn web:test
+
+      - name: Stop container
+        run: docker stop devnet_container
+
+      - name: Delete container
+        run: docker rm devnet_container
