@@ -18,7 +18,12 @@ describe('Create session', function () {
     const page1 = await client.getElementByTestId('HELLO-WORLD-PAGE');
     expect(await page1.isDisplayed()).toBeTruthy();
     const res = await client.getElementByTestId('result');
-    const resText = await res.getText();
+  
+    let resText = '';
+    await res.waitUntil(async function() {
+      resText = await this.getText();
+      return resText !== 'EMPTY';
+    })
     console.log(resText);
     expect(resText).toBe("Alive!!!");
 
