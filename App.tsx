@@ -58,19 +58,20 @@ const HelloWorld = () => {
   const [result, setResult] = useState('EMPTY');
 
   useEffect(() => {
-    fetch('http://localhost:5050/is_alive', { mode: 'no-cors'})
+    fetch('http://localhost:5050/is_alive')
       .then(function (response) {
+        console.log('response', response);
         // The API call was successful!
         return response.text();
       })
       .then(function (html) {
         // This is the HTML from our response as a text string
-        console.log(html);
+        console.log('html', html);
         setResult(html);
       })
       .catch(function (err) {
         // There was an error
-        setResult('ERROR');
+        setResult('ERROR'+ err);
         console.warn('Something went wrong.', err);
       });
   }, []);
