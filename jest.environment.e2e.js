@@ -13,6 +13,7 @@ class CustomEnvironment extends NodeEnvironment {
 
   async setup() {
     await super.setup();
+    console.log('driverConfig', driverConfig);
     this.client = await webdriverio.remote(driverConfig);
     this.global.client = this.client;
     this.global.timeout = this.timeout
@@ -80,7 +81,7 @@ class CustomEnvironment extends NodeEnvironment {
       await this.markSauceTask();
     }
 
-    await this.client.deleteSession();
+    // await this.client.deleteSession();
     await super.teardown();
   }
 
