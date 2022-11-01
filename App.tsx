@@ -58,7 +58,7 @@ const HelloWorld = () => {
   const [result, setResult] = useState('EMPTY');
 
   useEffect(() => {
-    fetch('http://127.0.0.1:5050/is_alive')
+    fetch('http://172.17.0.2:5050/is_alive')
       .then(function (response) {
         console.log('response', response);
         // The API call was successful!
@@ -73,7 +73,7 @@ const HelloWorld = () => {
         console.warn('Something went wrong.', err);
       });
 
-    fetch('http://127.0.0.1:5050/is_alive')
+    fetch('http://172.17.0.2:5050/is_alive')
       .then(function (response) {
         console.log('response', response);
         // The API call was successful!

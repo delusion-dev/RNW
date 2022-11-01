@@ -14,6 +14,12 @@ class CustomEnvironment extends NodeEnvironment {
   async setup() {
     await super.setup();
     console.log('driverConfig', driverConfig);
+    try {
+      this.client = await webdriverio.remote(driverConfig);
+      console.log('Client created', this.client);
+    } catch(e) {
+      console.log('Error while creatig client ', e);
+    }
     this.client = await webdriverio.remote(driverConfig);
     this.global.client = this.client;
     this.global.timeout = this.timeout

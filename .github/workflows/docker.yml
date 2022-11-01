@@ -32,7 +32,7 @@ jobs:
       - name: Run Puppeteer container
         run: |
           docker build -t test-pup . && \
-          docker run --network="host" test-pup node request.js
+          docker run test-pup node request.js
       - name: Sleep for 5 seconds
         run: sleep 5s
       - name: Stop container
