@@ -33,6 +33,7 @@ jobs:
         run: |
           docker build -t test-pup . && \
           docker run test-pup yarn web:test
+          
       - name: Sleep for 5 seconds
         run: sleep 5s
       - name: Stop container
