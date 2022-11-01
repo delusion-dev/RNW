@@ -6,49 +6,43 @@ jobs:
   main-job:
     runs-on: ubuntu-latest
     steps:
+
       - uses: actions/checkout@v3
-      - name: Create docker network
-        run: docker network create --driver bridge test-network 
-      - name: Check network created
-        run: docker network ls
+      - name: Determine current location
+        run: echo `pwd`/dumpdir
       - name: Launch docker container 
         run: |
           docker run -d \
           -p 127.0.0.1:5050:5050 \
           --restart always \
           --name devnet_container \
-          --network test-network \
-          shardlabs/starknet-devnet:latest
-
+          --mount type=bind,source=c/Users/ihor.bohdanov/Projects/RNW/dumpdir,target=/dumpdir \
+          shardlabs/starknet-devnet:latest \
+          --dump-on exit \
+          --dump-path /dumpdir/dump.pkl \
+          --load-path /dumpdir/dump.pkl
       - name: Sleep for 5 seconds
         run: sleep 5s
         shell: bash
-
       - name: Make a request from root
         run: node request.js
-
-      # - name: Prepare environment
-      #   run: npm i -g yarn && yarn install --frozen-lockfile
-
-      # - name: Build Extension application
-      #   run: yarn web:build
-
-      # - name: Build container
-      #   run: docker build -t test-image .
-
-
-      - name: Puppeteer container
+      # - name: Make a request from puppeteer
+      #   uses: mujo-code/puppeteer-headful@v2
+      #   env:
+      #     CI: 'true'
+      #   with:
+      #     # args: yarn web:test
+      #     args: node request.js
+      - name: Run Puppeteer container
         run: |
-          docker run -d \
-          --restart always \
-          --name puppeteer_container \
-          --mount type=bind,source=${{ github.workspace }},target=/app \
-          --network test-network \
-          ghcr.io/puppeteer/puppeteer:latest \
-          cd /app && npm i -g yarn && yarn install --frozen-lockfile && yarn web:build && yarn web:test
-
+          docker build -t test-pup . && \
+          docker run --network="host" -it test-pup yarn web:test
+      - name: Sleep for 5 seconds
+        run: sleep 5s
       - name: Stop container
         run: docker stop devnet_container
-
       - name: Delete container
         run: docker rm devnet_container
+      - name: Sleep for 10 seconds
+        run: sleep 10s
+        shell: bash
