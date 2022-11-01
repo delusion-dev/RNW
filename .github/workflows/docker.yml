@@ -16,7 +16,7 @@ jobs:
           -p 127.0.0.1:5050:5050 \
           --restart always \
           --name devnet_container \
-          --mount type=bind,source=c/Users/ihor.bohdanov/Projects/RNW/dumpdir,target=/dumpdir \
+          --mount type=bind,source=${{ github.workspace }}/dumpdir,target=/dumpdir \
           shardlabs/starknet-devnet:latest \
           --dump-on exit \
           --dump-path /dumpdir/dump.pkl \
