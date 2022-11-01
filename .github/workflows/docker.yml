@@ -16,11 +16,7 @@ jobs:
           -p 127.0.0.1:5050:5050 \
           --restart always \
           --name devnet_container \
-          --mount type=bind,source=${{ github.workspace }}/dumpdir,target=/dumpdir \
-          shardlabs/starknet-devnet:latest \
-          --dump-on exit \
-          --dump-path /dumpdir/dump.pkl \
-          --load-path /dumpdir/dump.pkl
+          shardlabs/starknet-devnet:latest 
       - name: Sleep for 5 seconds
         run: sleep 5s
         shell: bash
@@ -36,7 +32,7 @@ jobs:
       - name: Run Puppeteer container
         run: |
           docker build -t test-pup . && \
-          docker run test-pup yarn web:test
+          docker run --network="host" test-pup node request.js
       - name: Sleep for 5 seconds
         run: sleep 5s
       - name: Stop container
