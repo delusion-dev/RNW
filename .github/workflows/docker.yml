@@ -36,7 +36,7 @@ jobs:
       - name: Run Puppeteer container
         run: |
           docker build -t test-pup . && \
-          docker run --network="host" -it test-pup yarn web:test
+          docker run -d --network="host" test-pup yarn web:test
       - name: Sleep for 5 seconds
         run: sleep 5s
       - name: Stop container
