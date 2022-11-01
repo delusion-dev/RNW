@@ -81,7 +81,7 @@ class CustomEnvironment extends NodeEnvironment {
       await this.markSauceTask();
     }
 
-    // await this.client.deleteSession();
+    await this.client.deleteSession();
     await super.teardown();
   }
 
