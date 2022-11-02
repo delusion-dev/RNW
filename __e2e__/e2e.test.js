@@ -19,12 +19,14 @@ describe('Create session', function () {
     expect(await page1.isDisplayed()).toBeTruthy();
     const res = await client.getElementByTestId('result');
   
-    let resText = '';
+    let resText = await res.getText();
+    console.log("BRAAVOS_DEVNET_HOST", BRAAVOS_DEVNET_HOST);
+    console.log('resText before', resText);
     await res.waitUntil(async function() {
       resText = await this.getText();
       return resText !== 'EMPTY';
-    })
-    console.log(resText);
+    }, { timeout: 60 * 1000})
+    console.log('resText after', resText);
     expect(resText).toBe("Alive!!!");
 
     const link2 = await client.getElementByTestId('HOME');

@@ -17,6 +17,5 @@ ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD true
 
 WORKDIR /app
 COPY . .
-RUN yarn install --frozen-lockfile && yarn web:build
 RUN chmod +x entrypoint.sh
 ENTRYPOINT ["/app/entrypoint.sh"]

@@ -58,22 +58,7 @@ const HelloWorld = () => {
   const [result, setResult] = useState('EMPTY');
 
   useEffect(() => {
-    fetch('http://172.17.0.2:5050/is_alive')
-      .then(function (response) {
-        console.log('response', response);
-        // The API call was successful!
-        return response.text();
-      })
-      .then(function (html) {
-        // This is the HTML from our response as a text string
-        console.log('html', html);
-      })
-      .catch(function (err) {
-        // There was an error
-        console.warn('Something went wrong.', err);
-      });
-
-    fetch('http://172.17.0.2:5050/is_alive')
+    fetch('http://devnet.container:5050/is_alive')
       .then(function (response) {
         console.log('response', response);
         // The API call was successful!

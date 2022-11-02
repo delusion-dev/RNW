@@ -22,7 +22,8 @@ class CustomEnvironment extends NodeEnvironment {
     }
     this.client = await webdriverio.remote(driverConfig);
     this.global.client = this.client;
-    this.global.timeout = this.timeout
+    this.global.timeout = this.timeout;
+    this.global.BRAAVOS_DEVNET_HOST = process.env.BRAAVOS_DEVNET_HOST || 'localhost';
 
     if (process.env.PLATFORM === 'chrome') {
       await this.openExtensionPage();

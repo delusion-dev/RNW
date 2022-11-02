@@ -1,5 +1,5 @@
 const http = require('http');
-http.get('http://172.17.0.2:5050/is_alive', (resp) => {
+http.get('http://devnet.container:5050/is_alive', (resp) => {
   let data = '';
 
   // A chunk of data has been received.
