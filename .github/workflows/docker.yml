@@ -12,13 +12,12 @@ jobs:
       - uses: actions/checkout@v3
       - name: Determine current location
         run: echo `pwd`/dumpdir
-      - name: Create custom Docker network
-        run: docker network create  --driver bridge custom-network
+      # - name: Create custom Docker network
+      #   run: docker network create  --driver bridge custom-network
       - name: Launch docker container 
         run: |
           docker run -d \
           --name $DEVNET_CONTAINER_NAME \
-          -p 127.0.0.1:5050:5050 \
           --restart always \
           --network custom-network \
           shardlabs/starknet-devnet:latest 
@@ -44,7 +43,7 @@ jobs:
       - name: Run Puppeteer container
         run: |
           docker build \
-          -t test-pup . \
+          -t test-pup -f ./puppeteer-container/Dockerfile . \
           && \
           docker run --rm \
           --network custom-network \
