@@ -27,19 +27,19 @@ jobs:
 
 
 
-      # - name: Setup Node
-      #   uses: actions/setup-node@v3
-      #   with:
-      #     node-version: 16
-      #     cache: 'yarn'
-      # - name: Prepare environment
-      #   run: npm i -g yarn && yarn install --frozen-lockfile
-      # - name: Build Extension
-      #   env:
-      #     WEBPACK_MODE: production
-      #     NODE_ENV: production
-      #     BRAAVOS_DEVNET_HOST: $DEVNET_CONTAINER_NAME
-      #   run: yarn web:build
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: 'yarn'
+      - name: Prepare environment
+        run: npm i -g yarn && yarn install --frozen-lockfile
+      - name: Build Extension
+        env:
+          WEBPACK_MODE: production
+          NODE_ENV: production
+          BRAAVOS_DEVNET_HOST: $DEVNET_CONTAINER_NAME
+        run: yarn web:build
 
 
 
@@ -58,6 +58,8 @@ jobs:
 
 
       - name: Run Test
-        run: docker compose up
+        run: docker compose up -d
+      - name: Attach to puppeteer container
+        run: docker attach puppeteer.container
 
 

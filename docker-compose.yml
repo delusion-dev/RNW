@@ -7,7 +7,6 @@ services:
     container_name: devnet.container
     networks:
       - dev-network
-
     # volumes:
     #   - type: bind
     #     source: ./dumpdir
@@ -22,22 +21,22 @@ services:
     networks:
       - dev-network
 
-  puppeteera:
+  puppeteer:
     build:
       context: .
       dockerfile: puppeteer-container/Dockerfile
     container_name: puppeteer.container
     networks:
       - dev-network
-    depends_on:
-      - "devnet"
-      - "dapp"
     tty: true
     stdin_open: true
+    depends_on:
+      - devnet
+      - dapp
     environment:
       - CI='true'
     command:
-      - node request.js
+      - yarn web:test
 networks:
   dev-network:
     driver: bridge
