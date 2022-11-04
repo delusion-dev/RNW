@@ -7,11 +7,12 @@ services:
     container_name: devnet.container
     networks:
       - dev-network
-    volumes:
-      - type: bind
-        source: ./dumpdir
-        target: /dumpdir
-    command: --load-path /dumpdir/dump.pkl
+
+    # volumes:
+    #   - type: bind
+    #     source: ./dumpdir
+    #     target: /dumpdir
+    # command: --load-path /dumpdir/dump.pkl
 
   dapp:
     build:
@@ -36,7 +37,7 @@ services:
     environment:
       - CI='true'
     command:
-      - "yarn web:build && yarn web:test"
+      - node request.js
 networks:
   dev-network:
     driver: bridge
