@@ -1,0 +1,42 @@
+
+version: "3.9"
+
+services:
+  devnet:
+    image: shardlabs/starknet-devnet:latest
+    container_name: devnet.container
+    networks:
+      - dev-network
+    volumes:
+      - type: bind
+        source: ./dumpdir
+        target: /dumpdir
+    command: --load-path /dumpdir/dump.pkl
+
+  dapp:
+    build:
+      context: .
+      dockerfile: dapp-container/Dockerfile
+    container_name: dapp.container
+    networks:
+      - dev-network
+
+  puppeteera:
+    build:
+      context: .
+      dockerfile: puppeteer-container/Dockerfile
+    container_name: puppeteer.container
+    networks:
+      - dev-network
+    depends_on:
+      - "devnet"
+      - "dapp"
+    tty: true
+    stdin_open: true
+    environment:
+      - CI='true'
+    # command:
+    #   - "yarn web:build && yarn web:test"
+networks:
+  dev-network:
+    driver: bridge

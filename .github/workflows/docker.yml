@@ -10,45 +10,54 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Determine current location
-        run: echo `pwd`/dumpdir
-      - name: Create custom Docker network
-        run: docker network create  --driver bridge custom-network
-      - name: Launch docker container 
-        run: |
-          docker run -d \
-          --name $DEVNET_CONTAINER_NAME \
-          --restart always \
-          --network custom-network \
-          shardlabs/starknet-devnet:latest 
-      - name: Sleep for 5 seconds
-        run: sleep 5s
-        shell: bash
-      - name: Make a request from root
-        run: node request.js
-      - name: Setup Node
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16
-          cache: 'yarn'
-      - name: Prepare environment
-        run: npm i -g yarn && yarn install --frozen-lockfile
-      - name: Build Extension
-        env:
-          WEBPACK_MODE: production
-          NODE_ENV: production
-          BRAAVOS_DEVNET_HOST: $DEVNET_CONTAINER_NAME
+      # - name: Create custom Docker network
+      #   run: docker network create  --driver bridge custom-network
+      # - name: Launch docker container 
+      #   run: |
+      #     docker run -d \
+      #     --name $DEVNET_CONTAINER_NAME \
+      #     --restart always \
+      #     --network custom-network \
+      #     shardlabs/starknet-devnet:latest 
+      # - name: Sleep for 5 seconds
+      #   run: sleep 5s
+      #   shell: bash
+      # - name: Make a request from root
+      #   run: node request.js
 
-        run: yarn web:build
-      - name: Run Puppeteer container
-        run: |
-          docker build \
-          -t test-pup -f ./puppeteer-container/Dockerfile . \
-          && \
-          docker run --rm \
-          --network custom-network \
-          -e BRAAVOS_DEVNET_HOST=$DEVNET_CONTAINER_NAME \
-          -e CI='true' \
-          test-pup \
-          yarn web:test
+
+
+      # - name: Setup Node
+      #   uses: actions/setup-node@v3
+      #   with:
+      #     node-version: 16
+      #     cache: 'yarn'
+      # - name: Prepare environment
+      #   run: npm i -g yarn && yarn install --frozen-lockfile
+      # - name: Build Extension
+      #   env:
+      #     WEBPACK_MODE: production
+      #     NODE_ENV: production
+      #     BRAAVOS_DEVNET_HOST: $DEVNET_CONTAINER_NAME
+      #   run: yarn web:build
+
+
+
+      # - name: Run Puppeteer container
+      #   run: |
+      #     docker build \
+      #     -t test-pup -f ./puppeteer-container/Dockerfile . \
+      #     && \
+      #     docker run --rm \
+      #     --network custom-network \
+      #     -e BRAAVOS_DEVNET_HOST=$DEVNET_CONTAINER_NAME \
+      #     -e CI='true' \
+      #     test-pup \
+      #     yarn web:test
+
+
+
+      - name: Run Test
+        run: docker-compose up -d
+
 
