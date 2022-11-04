@@ -55,8 +55,6 @@ jobs:
       #     test-pup \
       #     yarn web:test
 
-
-
       - name: Run Test
         run: docker compose up --abort-on-container-exit
 
