@@ -28,8 +28,6 @@ services:
     container_name: puppeteer.container
     networks:
       - dev-network
-    tty: true
-    stdin_open: true
     depends_on:
       - devnet
       - dapp

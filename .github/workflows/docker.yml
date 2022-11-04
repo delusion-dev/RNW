@@ -58,8 +58,5 @@ jobs:
 
 
       - name: Run Test
-        run: docker compose up -d
-      - name: Attach to puppeteer container
-        run: docker attach puppeteer.container
-
+        run: docker compose up
 
