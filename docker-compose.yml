@@ -35,8 +35,8 @@ services:
     stdin_open: true
     environment:
       - CI='true'
-    # command:
-    #   - "yarn web:build && yarn web:test"
+    command:
+      - "yarn web:build && yarn web:test"
 networks:
   dev-network:
     driver: bridge
