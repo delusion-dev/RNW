@@ -1,5 +1,5 @@
 const http = require('http');
-http.get('http://dapp.container:80/is_alive', (resp) => {
+http.get('http://localhost:5050/is_alive', (resp) => {
   let data = '';
 
   // A chunk of data has been received.
