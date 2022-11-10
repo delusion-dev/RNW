@@ -8,6 +8,15 @@ env:
 jobs:
   main-job:
     runs-on: ubuntu-latest
+    services:
+      devnet:
+        image: shardlabs/starknet-devnet:latest
+        # name: devnet.container
+        options: >-
+          -ds
+        ports:
+          # Maps port 6379 on service container to the host
+          - 5050:5050
     steps:
       - uses: actions/checkout@v3
       # - name: Create custom Docker network
@@ -31,15 +40,18 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 16
-          cache: 'yarn'
-      - name: Prepare environment
-        run: npm i -g yarn && yarn install --frozen-lockfile
-      - name: Build Extension
-        env:
-          WEBPACK_MODE: production
-          NODE_ENV: production
-          BRAAVOS_DEVNET_HOST: $DEVNET_CONTAINER_NAME
-        run: yarn web:build
+          # cache: 'yarn'
+
+      - name: Request
+        run: node request.js 
+      # - name: Prepare environment
+      #   run: npm i -g yarn && yarn install --frozen-lockfile
+      # - name: Build Extension
+      #   env:
+      #     WEBPACK_MODE: production
+      #     NODE_ENV: production
+      #     BRAAVOS_DEVNET_HOST: $DEVNET_CONTAINER_NAME
+      #   run: yarn web:build
 
 
 
@@ -55,6 +67,6 @@ jobs:
       #     test-pup \
       #     yarn web:test
 
-      - name: Run Test
-        run: docker compose up --abort-on-container-exit
+      # - name: Run Test
+      #   run: docker compose up --abort-on-container-exit
 
