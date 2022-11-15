@@ -41,10 +41,15 @@ jobs:
         with:
           node-version: 16
           # cache: 'yarn'
-
-
       - name: Request
         run: node request.js 
+
+      - name: Test Code
+        uses: mujo-code/puppeteer-headful@16.6.0
+        env:
+          CI: "true"
+        with:
+          args: node request.js 
       # - name: Prepare environment
       #   run: npm i -g yarn && yarn install --frozen-lockfile
       # - name: Build Extension
