@@ -2,8 +2,8 @@ name: Extension e2e tests
 # on:
 #   pull_request_target:
 on: push
-env:
-  DEVNET_CONTAINER_NAME: devnet.container
+# env:
+#   DEVNET_CONTAINER_NAME: devnet.container
 
 jobs:
   main-job:
@@ -32,13 +32,16 @@ jobs:
       # - name: Make a request from root
       #   run: node request.js
 
-
+      - name: Sleep for 10 seconds
+        run: sleep 10s
+        shell: bash
 
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
           node-version: 16
           # cache: 'yarn'
+
 
       - name: Request
         run: node request.js 

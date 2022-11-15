@@ -1,4 +1,5 @@
 const http = require('http');
+console.log("REQUEST________________")
 http.get('http://localhost:5050/is_alive', (resp) => {
   let data = '';
 
