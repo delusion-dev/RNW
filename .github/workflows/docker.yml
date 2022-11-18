@@ -32,7 +32,7 @@ jobs:
         env:
           CI: 'true'
         with:
-          args: node request.js && node request2.js
+          args: node request2.js
 
 # name: Extension e2e tests
 # # on:
