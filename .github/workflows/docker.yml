@@ -7,7 +7,7 @@ jobs:
       devnet.container:
         image: shardlabs/starknet-devnet:latest
         # name: devnet.containe
-        ports:
+        # ports:
           # Maps port 6379 on service container to the host
           # - 5050:5050
     steps:
@@ -36,8 +36,8 @@ jobs:
 # # on:
 # #   pull_request_target:
 # on: push
-# # env:
-# #   DEVNET_CONTAINER_NAME: devnet.container
+# env:
+#   DEVNET_CONTAINER_NAME: devnet.container
 
 # jobs:
 #   main-job:
