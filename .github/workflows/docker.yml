@@ -7,13 +7,13 @@ jobs:
       devnet.container:
         image: shardlabs/starknet-devnet:latest
         # name: devnet.containe
-        ports:
+        # ports:
           # Maps port 6379 on service container to the host
-          - 5050:5050
+          # - 5050:5050
       dapp.container:
         image: sergeyfilenko/starknet-dapp:latest
-        ports: 
-          - 443:443
+        # ports: 
+        #   - 443:443
     steps:
       - run: echo "The job was automatically triggered by a ${{ github.event_name }} event."
       - run: echo "This job is now running on a ${{ runner.os }} server hosted by GitHub!"

@@ -1,7 +1,7 @@
 var https = require('https');
 
 var options = {
-  host: 'localhost',
+  host: 'dapp.container',
   port: 443,
   path: '/',
   method: 'POST'
