@@ -45,7 +45,6 @@ jobs:
         #   CI: 'true'
         # with:
         #   args: node request2.js
-
 # name: Extension e2e tests
 # # on:
 # #   pull_request_target:
