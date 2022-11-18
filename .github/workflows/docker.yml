@@ -1,10 +1,6 @@
 name: Extension e2e tests
-# on:
-#   pull_request_target:
-on: push
-# env:
-#   DEVNET_CONTAINER_NAME: devnet.container
-
+on:
+  pull_request_target:
 jobs:
   main-job:
     runs-on: ubuntu-latest
@@ -14,65 +10,104 @@ jobs:
         # name: devnet.containe
         ports:
           # Maps port 6379 on service container to the host
-          - 5050:5050
+          # - 5050:5050
     steps:
+      - run: echo "The job was automatically triggered by a ${{ github.event_name }} event."
+      - run: echo "This job is now running on a ${{ runner.os }} server hosted by GitHub!"
+      - run: echo "The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
       - uses: actions/checkout@v3
-      # - name: Create custom Docker network
-      #   run: docker network create  --driver bridge custom-network
-      # - name: Launch docker container 
-      #   run: |
-      #     docker run -d \
-      #     --name $DEVNET_CONTAINER_NAME \
-      #     --restart always \
-      #     --network custom-network \
-      #     shardlabs/starknet-devnet:latest 
-      # - name: Sleep for 5 seconds
-      #   run: sleep 5s
-      #   shell: bash
-      # - name: Make a request from root
-      #   run: node request.js
-
+      - name: List files in the repository
+        run: |
+          ls ${{ github.workspace }}
       - name: Sleep for 10 seconds
         run: sleep 10s
         shell: bash
-
-      - name: Setup Node
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16
-          # cache: 'yarn'
-      - name: Request
-        run: node request.js 
-
-      - name: Test Code
-        uses: mujo-code/puppeteer-headful@16.6.0
-        env:
-          CI: "true"
-        with:
-          args: node request.js 
       # - name: Prepare environment
       #   run: npm i -g yarn && yarn install --frozen-lockfile
-      # - name: Build Extension
-      #   env:
-      #     WEBPACK_MODE: production
-      #     NODE_ENV: production
-      #     BRAAVOS_DEVNET_HOST: $DEVNET_CONTAINER_NAME
+      # - name: Build Extension application
       #   run: yarn web:build
+      - name: Test Extension
+        uses: mujo-code/puppeteer-headful@v2
+        env:
+          CI: 'true'
+        with:
+          args: node request.js
+
+# name: Extension e2e tests
+# # on:
+# #   pull_request_target:
+# on: push
+# # env:
+# #   DEVNET_CONTAINER_NAME: devnet.container
+
+# jobs:
+#   main-job:
+#     runs-on: ubuntu-latest
+#     services:
+#       devnet.container:
+#         image: shardlabs/starknet-devnet:latest
+#         # name: devnet.containe
+#         ports:
+#           # Maps port 6379 on service container to the host
+#           - 5050:5050
+#     steps:
+#       - uses: actions/checkout@v3
+#       # - name: Create custom Docker network
+#       #   run: docker network create  --driver bridge custom-network
+#       # - name: Launch docker container 
+#       #   run: |
+#       #     docker run -d \
+#       #     --name $DEVNET_CONTAINER_NAME \
+#       #     --restart always \
+#       #     --network custom-network \
+#       #     shardlabs/starknet-devnet:latest 
+#       # - name: Sleep for 5 seconds
+#       #   run: sleep 5s
+#       #   shell: bash
+#       # - name: Make a request from root
+#       #   run: node request.js
+
+#       - name: Sleep for 10 seconds
+#         run: sleep 10s
+#         shell: bash
+
+#       - name: Setup Node
+#         uses: actions/setup-node@v3
+#         with:
+#           node-version: 16
+#           # cache: 'yarn'
+#       - name: Request
+#         run: node request.js 
+
+#       - name: Test Code
+#         uses: mujo-code/puppeteer-headful@16.6.0
+#         env:
+#           CI: "true"
+#         with:
+#           args: node request.js 
+#       # - name: Prepare environment
+#       #   run: npm i -g yarn && yarn install --frozen-lockfile
+#       # - name: Build Extension
+#       #   env:
+#       #     WEBPACK_MODE: production
+#       #     NODE_ENV: production
+#       #     BRAAVOS_DEVNET_HOST: $DEVNET_CONTAINER_NAME
+#       #   run: yarn web:build
 
 
 
-      # - name: Run Puppeteer container
-      #   run: |
-      #     docker build \
-      #     -t test-pup -f ./puppeteer-container/Dockerfile . \
-      #     && \
-      #     docker run --rm \
-      #     --network custom-network \
-      #     -e BRAAVOS_DEVNET_HOST=$DEVNET_CONTAINER_NAME \
-      #     -e CI='true' \
-      #     test-pup \
-      #     yarn web:test
+#       # - name: Run Puppeteer container
+#       #   run: |
+#       #     docker build \
+#       #     -t test-pup -f ./puppeteer-container/Dockerfile . \
+#       #     && \
+#       #     docker run --rm \
+#       #     --network custom-network \
+#       #     -e BRAAVOS_DEVNET_HOST=$DEVNET_CONTAINER_NAME \
+#       #     -e CI='true' \
+#       #     test-pup \
+#       #     yarn web:test
 
-      # - name: Run Test
-      #   run: docker compose up --abort-on-container-exit
+#       # - name: Run Test
+#       #   run: docker compose up --abort-on-container-exit
 
