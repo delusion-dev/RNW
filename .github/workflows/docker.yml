@@ -10,6 +10,8 @@ jobs:
         # ports:
           # Maps port 6379 on service container to the host
           # - 5050:5050
+      dapp.container:
+        image: sergeyfilenko/starknet-dapp:latest
     steps:
       - run: echo "The job was automatically triggered by a ${{ github.event_name }} event."
       - run: echo "This job is now running on a ${{ runner.os }} server hosted by GitHub!"
@@ -30,7 +32,7 @@ jobs:
         env:
           CI: 'true'
         with:
-          args: node request.js
+          args: node request.js && node request2.js
 
 # name: Extension e2e tests
 # # on:
