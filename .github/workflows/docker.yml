@@ -1,6 +1,5 @@
 name: Extension e2e tests
-on:
-  pull_request_target:
+on: push
 jobs:
   main-job:
     runs-on: ubuntu-latest
