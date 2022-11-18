@@ -1,6 +1,6 @@
 const http = require('http');
 console.log("REQUEST________________")
-http.get('http://devnet.container:5050/is_alive', (resp) => {
+http.get('http://localhost:5050/is_alive', (resp) => {
   let data = '';
 
   // A chunk of data has been received.
