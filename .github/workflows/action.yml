@@ -1,4 +1,3 @@
-Uncomment commit and push to start action When PR created
 name: Extension e2e tests
 on:
   pull_request_target:
