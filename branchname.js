@@ -1,1 +1,1 @@
-console.log('Branch is master');
+console.log('Branch is test-ci-branch2');
