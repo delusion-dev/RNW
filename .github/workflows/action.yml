@@ -15,10 +15,10 @@ jobs:
       #     [ "$(git rev-parse HEAD)" = "${{ github.sha }}" ]  
       # - name: Print branchname
       #   run: node branchname.js
-      # - name: Prepare environment
-      #   run: npm i -g yarn && yarn install --frozen-lockfile
-      # - name: Build Extension application
-      #   run: yarn web:build
+      - name: Prepare environment
+        run: npm i -g yarn && yarn install --frozen-lockfile
+      - name: Build Extension application
+        run: yarn web:build
       - name: List files in the repository
         run: ls ${{ github.workspace }}
       - name: Build containers
