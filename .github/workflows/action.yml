@@ -19,10 +19,13 @@ jobs:
       #   run: npm i -g yarn && yarn install --frozen-lockfile
       # - name: Build Extension application
       #   run: yarn web:build
+      - name: List files in the repository
+        run: |
+          ls ${{ github.workspace }}
       - name: Build containers
-        run: docker-compose build
+        run: docker-compose create
       - name: Run tests 
-        run: docker-compose up
+        run: docker-compose start
       # - name: Build Extension application
       #   run: yarn web:build
       # - name: Start devnet service container
