@@ -1,4 +1,3 @@
-
 version: "3.9"
 
 services:
@@ -7,32 +6,47 @@ services:
     container_name: devnet.container
     networks:
       - dev-network
-    # volumes:
-    #   - type: bind
-    #     source: ./dumpdir
-    #     target: /dumpdir
-    # command: --load-path /dumpdir/dump.pkl
+    volumes:
+      - type: bind
+        source: ./e2e/mocks/dumpdir
+        target: /dumpdir
+    command: --load-path /dumpdir/dump.pkl
+
+  nftmeta:
+    image: clue/json-server
+    container_name: nftmeta.container
+    networks:
+      - dev-network
+    volumes:
+      - type: bind
+        source: ./e2e/mocks/nft-metadata-db.json
+        target: /data/db.json
+    command: --no-cors
 
   dapp:
     build:
       context: .
-      dockerfile: dapp-container/Dockerfile
+      dockerfile: e2e/config/dapp-container/Dockerfile
     container_name: dapp.container
     networks:
       - dev-network
+    depends_on:
+      - nftmeta
 
   puppeteer:
     build:
       context: .
-      dockerfile: puppeteer-container/Dockerfile
+      dockerfile: e2e/config/puppeteer-container/Dockerfile
     container_name: puppeteer.container
     networks:
       - dev-network
     depends_on:
       - devnet
       - dapp
+      - nftmeta
     environment:
-      - CI='true'
+      - CI=true
+      - DAPP_HOST=dapp.container
     command:
       - yarn web:test
 networks:

@@ -1,9 +1,7 @@
 name: Extension e2e tests
 on:
-    pull_request:
-      branches:
-        - master
-  workflow_call:
+  push:
+    branches: [ "test-ci-branch2" ]
 jobs:
   main-job:
     runs-on: ubuntu-latest
@@ -19,14 +17,20 @@ jobs:
         run: node branchname.js
       - name: List files in the repository
         run: |
-          ls ${{ github.workspace }}
-      # - name: Prepare environment
-      #   run: npm i -g yarn && yarn install --frozen-lockfile
+          ls ${{ github.workspace }
+      - name: Prepare environment
+        run: npm i -g yarn && yarn install --frozen-lockfile
+      - name: Build containers
+        run: docker compose build
+      - name: Run tests 
+        run: docker-compose up
       # - name: Build Extension application
       #   run: yarn web:build
-      # - name: Test Extension
-      #   uses: mujo-code/puppeteer-headful@v2
-      #   env:
-      #     CI: 'true'
-      #   with:
-      #     args: yarn web:test
+      # - name: Start devnet service container
+      #   run: docker-compose run devnet
+      # - name: Start nftmeta service container
+      #   run: docker-compose run nftmeta
+      # - name: Start dapp service container
+      #   run: docker-compose run dapp
+      # - name: Start tests
+      #   run: 
