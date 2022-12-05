@@ -33,22 +33,22 @@ services:
     depends_on:
       - nftmeta
 
-  # puppeteer:
-  #   build:
-  #     context: .
-  #     dockerfile: puppeteer-container/Dockerfile
-  #   container_name: puppeteer.container
-  #   networks:
-  #     - dev-network
-  #   depends_on:
-  #     - devnet
-  #     - dapp
-  #     - nftmeta
-  #   environment:
-  #     - CI=true
-  #     - DAPP_HOST=dapp.container
-  #   command:
-  #     - yarn web:test
+  puppeteer:
+    build:
+      context: .
+      dockerfile: puppeteer-container/Dockerfile
+    container_name: puppeteer.container
+    networks:
+      - dev-network
+    depends_on:
+      - devnet
+      - dapp
+      - nftmeta
+    environment:
+      - CI=true
+      - DAPP_HOST=dapp.container
+    command:
+      - yarn web:test
 networks:
   dev-network:
     driver: bridge

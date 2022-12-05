@@ -22,7 +22,7 @@ jobs:
       - name: List files in the repository
         run: ls ${{ github.workspace }}
       - name: Run containers 
-        run: docker compose up --abort-on-container-exit
+        run: docker compose up -d --abort-on-container-exit
       - name: Watch tests 
         run: docker attach pupperteer
       # - name: Build Extension application
