@@ -24,7 +24,7 @@ jobs:
       - name: Run containers 
         run: docker compose up -d
       - name: Watch tests 
-        run: docker attach pupperteer
+        run: docker attach puppeteer.container
       # - name: Build Extension application
       #   run: yarn web:build
       # - name: Start devnet service container
