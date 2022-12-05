@@ -23,8 +23,10 @@ jobs:
         run: ls ${{ github.workspace }}
       - name: Build containers
         run: docker-compose build
-      - name: Run tests 
-        run: docker compose up --no-build --attach puppeteer --abort-on-container-exit
+      - name: Run containers 
+        run: docker compose up --abort-on-container-exit
+      - name: Watch tests 
+        run: docker attach pupperteer
       # - name: Build Extension application
       #   run: yarn web:build
       # - name: Start devnet service container
