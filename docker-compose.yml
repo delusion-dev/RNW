@@ -26,7 +26,7 @@ services:
   dapp:
     build:
       context: .
-      dockerfile: e2e/config/dapp-container/Dockerfile
+      dockerfile: dapp-container/Dockerfile
     container_name: dapp.container
     networks:
       - dev-network
@@ -36,7 +36,7 @@ services:
   puppeteer:
     build:
       context: .
-      dockerfile: e2e/config/puppeteer-container/Dockerfile
+      dockerfile: puppeteer-container/Dockerfile
     container_name: puppeteer.container
     networks:
       - dev-network

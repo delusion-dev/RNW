@@ -17,6 +17,8 @@ jobs:
         run: node branchname.js
       - name: Prepare environment
         run: npm i -g yarn && yarn install --frozen-lockfile
+      - name: Build Extension application
+        run: yarn web:build
       - name: Build containers
         run: docker compose build
       - name: Run tests 
