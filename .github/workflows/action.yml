@@ -20,8 +20,7 @@ jobs:
       # - name: Build Extension application
       #   run: yarn web:build
       - name: List files in the repository
-        run: |
-          ls ${{ github.workspace }}
+        run: ls ${{ github.workspace }}
       - name: Build containers
         run: docker-compose create
       - name: Run tests 
