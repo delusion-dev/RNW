@@ -22,9 +22,9 @@ jobs:
       - name: List files in the repository
         run: ls ${{ github.workspace }}
       - name: Build containers
-        run: docker-compose up --no-start --attach puppeteer --abort-on-container-exit
+        run: docker-compose up --no-start
       - name: Run tests 
-        run: docker-compose start
+        run: docker-compose start --attach puppeteer --abort-on-container-exit
       # - name: Build Extension application
       #   run: yarn web:build
       # - name: Start devnet service container
