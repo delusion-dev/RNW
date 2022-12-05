@@ -24,7 +24,7 @@ jobs:
       - name: Build containers
         run: docker-compose up --no-start
       - name: Run tests 
-        run: docker-compose up --attach puppeteer --abort-on-container-exit
+        run: docker compose up --attach puppeteer --abort-on-container-exit
       # - name: Build Extension application
       #   run: yarn web:build
       # - name: Start devnet service container
