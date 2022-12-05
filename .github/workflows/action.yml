@@ -22,7 +22,7 @@ jobs:
       - name: List files in the repository
         run: ls ${{ github.workspace }}
       - name: Build containers
-        run: docker-compose create
+        run: docker-compose up --no-start --attach puppeteer --abort-on-container-exit
       - name: Run tests 
         run: docker-compose start
       # - name: Build Extension application

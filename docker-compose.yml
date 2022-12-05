@@ -6,11 +6,11 @@ services:
     container_name: devnet.container
     networks:
       - dev-network
-    volumes:
-      - type: bind
-        source: ./e2e/mocks/dumpdir
-        target: /dumpdir
-    command: --load-path /dumpdir/dump.pkl
+    # volumes:
+    #   - type: bind
+    #     source: ./e2e/mocks/dumpdir
+    #     target: /dumpdir
+    # command: --load-path /dumpdir/dump.pkl
 
   nftmeta:
     image: clue/json-server
