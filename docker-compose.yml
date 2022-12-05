@@ -17,10 +17,10 @@ services:
     container_name: nftmeta.container
     networks:
       - dev-network
-    volumes:
-      - type: bind
-        source: ./e2e/mocks/nft-metadata-db.json
-        target: /data/db.json
+    # volumes:
+    #   - type: bind
+    #     source: ./e2e/mocks/nft-metadata-db.json
+    #     target: /data/db.json
     command: --no-cors
 
   dapp:
